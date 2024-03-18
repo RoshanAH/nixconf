@@ -69,6 +69,10 @@
 
   programs.zsh.enable = true;
   programs.git.enable = true;
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     home-manager
