@@ -65,6 +65,15 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # sound stuffs
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
   time.timeZone = "America/Chicago";
 
   programs.zsh.enable = true;
@@ -79,6 +88,7 @@
     vim
     wget
     neofetch
+    pamixer
   ]; 
 
   security.sudo.wheelNeedsPassword = false;
