@@ -89,6 +89,7 @@
     wget
     neofetch
     pamixer
+    brightnessctl
   ]; 
 
   security.sudo.wheelNeedsPassword = false;
