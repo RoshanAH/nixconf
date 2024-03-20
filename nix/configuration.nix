@@ -88,7 +88,10 @@
     vim
     wget
     neofetch
+#    audio
     pamixer
+    alsamixer
+#    brightness
     brightnessctl
   ]; 
 
