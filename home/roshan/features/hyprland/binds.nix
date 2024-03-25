@@ -28,6 +28,8 @@
       "ALT,space,fullscreen,"
       "ALTSHIFT,space,fakefullscreen,"
       "ALT,u,togglefloating"
+      "ALT,tab,layoutmsg,swapsplit"
+      "ALTSHIFT,tab,layoutmsg,togglesplit"
     ] ++
     # Change workspace
     (map (n:

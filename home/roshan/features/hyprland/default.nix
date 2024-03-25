@@ -11,9 +11,9 @@
 		# TODO systemd stuff here when hyprland is stable
 		settings = let 
 			terminal = "${pkgs.alacritty}/bin/alacritty";
-		browser = "${pkgs.firefox}/bin/firefox";
-		brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-		pamixer = "${pkgs.pamixer}/bin/pamixer";
+			browser = "${pkgs.firefox}/bin/firefox";
+			brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+			pamixer = "${pkgs.pamixer}/bin/pamixer";
 		in {
 			monitor = [ ",highrr,auto,1" ];
 			general = {
@@ -31,10 +31,16 @@
 				repeat_delay = 200;
 				natural_scroll = false;
 			};
-			device = [{
-				name = "razer-razer-viper-v2-pro-1";
-				sensitivity = -0.5;
-			}];
+			device = [
+				{
+					name = "razer-razer-viper-v2-pro-1";
+					sensitivity = -0.5;
+				}
+				{
+					name = "razer-razer-viper-v2-pro";
+					sensitivity = -0.5;
+				}
+			];
 			dwindle = {
 				no_gaps_when_only = 1;
 				preserve_split = true;
@@ -42,6 +48,8 @@
 			};
 			misc = {
 				vfr = true;
+				disable_hyprland_logo = true;
+				disable_splash_rendering = true;
 				close_special_on_empty = true;
 				focus_on_activate = true;
 				# Unfullscreen when opening something

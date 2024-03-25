@@ -89,18 +89,24 @@
     vim
     wget
     neofetch
+    sl
 #    audio
     pamixer
 #    brightness
     brightnessctl
   ]; 
 
+  fonts.packages = with pkgs; [
+  	jetbrains-mono
+  ];
+
   security.sudo.wheelNeedsPassword = false;
+  virtualisation.docker.enable = true;
 
   users.users = {
     roshan = {
       isNormalUser = true;
-      extraGroups = ["wheel" "networkmanager"];
+      extraGroups = ["wheel" "networkmanager" "docker"];
       shell = pkgs.zsh;
     };
   };
