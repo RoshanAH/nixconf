@@ -8,12 +8,12 @@
         h = left; l = right; k = up; j = down;
       };
 
-      shiftAmount = 10;
+      shiftAmount = "15";
       pixelDelta = {
-	      "l" = "(-${shiftAmount} 0)";
-	      "r" = "(${shiftAmount} 0)";
-	      "u" = "(0 -${shiftAmount})";
-	      "d" = "(0 ${shiftAmount})";
+	      "l" = "-${shiftAmount} 0";
+	      "r" = "${shiftAmount} 0";
+	      "u" = "0 -${shiftAmount}";
+	      "d" = "0 ${shiftAmount}";
       };
 
     in {
@@ -28,9 +28,6 @@
       "ALT,space,fullscreen,"
       "ALTSHIFT,space,fakefullscreen,"
       "ALT,u,togglefloating"
-
-      "ALT,tab,swapwithmaster"
-
     ] ++
     # Change workspace
     (map (n:
@@ -48,10 +45,10 @@
     (lib.mapAttrsToList (key: direction:
       "ALTCONTROL,${key},swapwindow,${direction}"
     ) directions);
-    bindr = 
+    binde = 
     # Resizing
     (lib.mapAttrsToList (key: direction:
-	 "ALTSHIFT,${key},swapwindow,${pixelDelta.${direction}}"
+	 "ALTSHIFT,${key},resizeactive,${pixelDelta.${direction}}"
     ) directions);
   };
 }

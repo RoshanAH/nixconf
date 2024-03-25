@@ -14,6 +14,8 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+	  ./features/hyprland
+	  ./features/nvim
   ];
 
   nixpkgs = {
@@ -58,6 +60,12 @@
     enable = true;
     userName = "roshan";
     userEmail = "roshanahegde@gmail.com";
+  };
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
   };
 
   # Nicely reload system units when changing configs
