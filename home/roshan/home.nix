@@ -60,6 +60,7 @@
     enable = true;
     userName = "roshan";
     userEmail = "roshanahegde@gmail.com";
+    credentials.helper = "store";
   };
   programs.neovim = {
     enable = true;
@@ -67,6 +68,12 @@
     viAlias = true;
     vimAlias = true;
   };
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableZshIntegration = true;
+  };
+  programs.zsh.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
