@@ -60,7 +60,9 @@
     enable = true;
     userName = "roshan";
     userEmail = "roshanahegde@gmail.com";
-    credentials.helper = "store";
+    extraConfig = {
+      credential.helper = "store";
+    };
   };
   programs.neovim = {
     enable = true;
