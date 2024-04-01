@@ -62,6 +62,7 @@
     enable = true;
     device = "nodev";
     useOSProber = true;
+    timeoutStyle = "hidden";
   };
   boot.loader.efi.canTouchEfiVariables = true;
 

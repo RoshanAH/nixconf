@@ -8,7 +8,13 @@
 	
 	wayland.windowManager.hyprland = {
 		enable = true;
-		# TODO systemd stuff here when hyprland is stable
+        systemd = {
+            enable = true;
+            extraCommands = lib.mkBefore [
+                "systemctl --user stop graphical-session.target"
+                    "systemctl --user start hyprland-session.target"
+            ];
+        };
 		settings = let 
 			terminal = "${pkgs.alacritty}/bin/alacritty";
 			browser = "${pkgs.firefox}/bin/firefox";

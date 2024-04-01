@@ -1,3 +1,3 @@
-require("user.set")
-require("user.map")
-require("user.lazy")
+require("config.set")
+require("config.map")
+require("config.lazy")
