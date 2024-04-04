@@ -5,6 +5,8 @@ keymap("n", "<leader>e", vim.cmd.Ex)
 
 keymap("v", "J", ":m '>+1<CR>gv=gv")
 keymap("v", "K", ":m '<-2<CR>gv=gv")
+keymap("v", "<", "<gv", opts)
+keymap("v", ">", ">gv", opts)
 
 keymap("n", "J", "mzJ`z")
 keymap("n", "<C-d>", "<C-d>zz")

@@ -5,6 +5,10 @@
 	xdg.portal = {
 		extraPortals = [ pkgs.inputs.hyprland.xdg ];
 	};
+
+    home.packages = with pkgs; [
+        wl-clipboard
+    ];
 	
 	wayland.windowManager.hyprland = {
 		enable = true;
