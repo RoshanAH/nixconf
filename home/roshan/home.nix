@@ -48,6 +48,7 @@
   home.packages = with pkgs; [
     alacritty
     firefox
+    discord
   ];
 
   # Add stuff for your user as you see fit:

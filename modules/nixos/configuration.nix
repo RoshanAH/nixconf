@@ -76,9 +76,8 @@
         pulse.enable = true;
     };
 
-    hardware.bluetooth = {
-        enable = true;
-    };
+    hardware.bluetooth.enable = true;
+    services.blueman.enable = true;
 
     time.timeZone = "America/Chicago";
 
