@@ -100,6 +100,7 @@
             brightnessctl
             gnumake
     ]; 
+    programs.steam.enable = true;
 
     fonts.packages = with pkgs; [
         jetbrains-mono

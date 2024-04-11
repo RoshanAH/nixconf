@@ -5,6 +5,10 @@
 	xdg.portal = {
 		extraPortals = [ pkgs.inputs.hyprland.xdg ];
 	};
+    xdg.configFile."hypr/wallpapers" = {
+        source = ./wallpapers;
+		recursive = true;
+    };
 
     home.packages = with pkgs; [
         wl-clipboard
