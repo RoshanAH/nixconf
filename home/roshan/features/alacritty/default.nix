@@ -3,12 +3,12 @@
         enable = true;
         settings = {
             window = {
-                padding = { x = 10; y = 10 };
+                padding = { x = 10; y = 10; };
                 opacity = 0.3;
-                blue = true;
+                blur = true;
             };
-            bindings = [
-                { key = "N", mods = "Control", action = "SpawnNewInstance" }
+            keyboard.bindings = [
+                { key = "N"; mods = "Control"; action = "SpawnNewInstance"; }
             ];
         };
     };

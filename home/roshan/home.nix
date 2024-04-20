@@ -16,6 +16,7 @@
     # ./nvim.nix
 	  ./features/hyprland
 	  ./features/nvim
+      ./features/alacritty
   ];
 
   nixpkgs = {
@@ -30,6 +31,7 @@
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
       # })
+        prismlauncher.overlays.default
     ];
     # Configure your nixpkgs instance
     config = {
@@ -46,9 +48,12 @@
   };
 
   home.packages = with pkgs; [
-    alacritty
     firefox
     discord
+    fzf
+    ripgrep
+    fd
+    prismlauncher
   ];
 
   # Add stuff for your user as you see fit:

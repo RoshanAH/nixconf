@@ -89,21 +89,20 @@
     };
 
     environment.systemPackages = with pkgs; [
-        home-manager
             vim
             wget
             neofetch
+            unzip
             sl
 #    audio
             pamixer
 #    brightness
             brightnessctl
-            gnumake
     ]; 
     programs.steam.enable = true;
 
     fonts.packages = with pkgs; [
-        jetbrains-mono
+        nerdfonts
     ];
 
     security.sudo.wheelNeedsPassword = false;

@@ -1,0 +1,95 @@
+{
+  "nodes": {
+    "clangNixPkgs": {
+      "locked": {
+        "lastModified": 1649843365,
+        "narHash": "sha256-nm25C0Y3rxE4xkXVdrdX9BP1QABh5VMFOWKvDWpk73o=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "0343e3415784b2cd9c68924294794f7dbee12ab3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "0343e3415784b2cd9c68924294794f7dbee12ab3",
+        "type": "github"
+      }
+    },
+    "cmakeNixPkgs": {
+      "locked": {
+        "lastModified": 1644420267,
+        "narHash": "sha256-rFJuctggkjM412OC6OGPdXogFp7czGDW05ueWqpJbj8=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "98bb5b77c8c6666824a4c13d23befa1e07210ef1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "98bb5b77c8c6666824a4c13d23befa1e07210ef1",
+        "type": "github"
+      }
+    },
+    "flakegen": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1707120544,
+        "narHash": "sha256-pXwH9NLXjhjnaz1n7w5m36gVUZ1GVkvtltsLnvVPFJY=",
+        "owner": "jorsn",
+        "repo": "flakegen",
+        "rev": "8b11749b0724700273462a674dd16e5549fe2790",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jorsn",
+        "repo": "flakegen",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1712963716,
+        "narHash": "sha256-WKm9CvgCldeIVvRz87iOMi8CFVB1apJlkUT4GGvA0iM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cfd6b5fc90b15709b780a5a1619695a88505a176",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "clangNixPkgs": "clangNixPkgs",
+        "cmakeNixPkgs": "cmakeNixPkgs",
+        "flakegen": "flakegen",
+        "nixpkgs": "nixpkgs"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

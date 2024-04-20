@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, inputs, ... }: {
 	imports = [
 		./binds.nix		
 	];
@@ -12,6 +12,7 @@
 
     home.packages = with pkgs; [
         wl-clipboard
+        inputs.hyprland-contrib.packages.${pkgs.system}.grimblast 
     ];
 	
 	wayland.windowManager.hyprland = {
@@ -110,7 +111,8 @@
 			bind = [			
 				"ALT,Return,exec,${terminal}"
 				"ALT,f,exec,${browser}"
-
+                "ALT,d,exec, discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
+                "SUPER,s,exec,grimblast copy area"
 			];
 			binde = [
 				",XF86MonBrightnessUp,exec,${brightnessctl} s 5%+"
