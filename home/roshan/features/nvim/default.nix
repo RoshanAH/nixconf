@@ -19,10 +19,6 @@ in {
         nvim = {
             source = ./config;
             recursive = true;
-            buildPhase = ''
-                mkdir -p $out/lua/plugins/
-                cp $config/lua/plugins/servers.lua $out/lua/plugins/
-                '';
         };
 #        "lua/plugins/servers.lua".text = ''
 #        {

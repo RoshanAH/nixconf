@@ -9,13 +9,18 @@
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
     };
+
     hyprland-contrib = {
         url = "github:hyprwm/contrib";
         inputs.nixpkgs.follows = "nixpkgs";
     };
     prismlauncher = {
-      url = "github:PrismLauncher/PrismLauncher";
-      inputs.nixpkgs.follows = "nixpkgs";
+        url = "github:PrismLauncher/PrismLauncher";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-colors = {
+        url = "github:misterio77/nix-colors";
+        inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

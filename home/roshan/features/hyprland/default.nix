@@ -29,15 +29,19 @@
 			browser = "${pkgs.firefox}/bin/firefox";
 			brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
 			pamixer = "${pkgs.pamixer}/bin/pamixer";
+
+
+            active = "rgba(${config.colorscheme.palette.base0E}ff) rgba(${config.colorscheme.palette.base09}ff) 60deg";
+            inactive = "rgba(${config.colorScheme.palette.base00}ff)";
 		in {
 			monitor = [ ",highrr,auto,1" ];
 			general = {
 				cursor_inactive_timeout = 4;
 				gaps_in = 5;
 				gaps_out = 10;
-				border_size = 1;
-#			"col.active_border" = active;
-#			"col.inactive_border" = inactive;
+				border_size = 2;
+                "col.active_border" = active;
+                "col.inactive_border" = inactive;
 			};
 			input = {
 				touchpad.disable_while_typing = false;
@@ -111,6 +115,7 @@
 			bind = [			
 				"ALT,Return,exec,${terminal}"
 				"ALT,f,exec,${browser}"
+                "ALT,g,exec,qutebrowser"
                 "ALT,d,exec, discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
                 "SUPER,s,exec,grimblast copy area"
 			];

@@ -17,7 +17,10 @@
 	  ./features/hyprland
 	  ./features/nvim
       ./features/alacritty
+      inputs.nix-colors.homeManagerModules.default
   ];
+
+  colorscheme = inputs.nix-colors.colorSchemes.gruvbox-material-dark-medium;
 
   nixpkgs = {
     # You can add overlays here
@@ -31,7 +34,7 @@
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
       # })
-        prismlauncher.overlays.default
+        inputs.prismlauncher.overlays.default
     ];
     # Configure your nixpkgs instance
     config = {
@@ -55,6 +58,20 @@
     fd
     prismlauncher
   ];
+
+  programs.qutebrowser = let
+    inherit (config.colorscheme) palette mode;
+  in {
+      enable = true;
+      settings = {
+          colors = {
+# Becomes either 'dark' or 'light', based on your colors!
+              webpage.preferred_color_scheme = "${config.colorScheme.variant}";
+              tabs.bar.bg = "#${config.colorScheme.palette.base00}";
+              keyhint.fg = "#${config.colorScheme.palette.base05}";
+          };
+      };
+  };
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;

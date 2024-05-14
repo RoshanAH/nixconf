@@ -66,6 +66,29 @@
     };
     boot.loader.efi.canTouchEfiVariables = true;
 
+
+    hardware.opengl = {
+        enable = true;
+        driSupport = true;
+        driSupport32Bit = true;
+    };
+    hardware.nvidia = {
+        modesetting.enable = true;
+        powerManagement.enable = false;
+        powerManagement.finegrained = false;
+        open = false;
+        nvidiaSettings = true;
+        package = config.boot.kernelPackages.nvidiaPackages.stable;
+        prime = {
+            offload = {
+                enable = true;
+                enableOffloadCmd = true;
+            };
+            amdgpuBusId = "PCI:4:0:0";
+            nvidiaBusId = "PCI:1:0:0";
+        };
+    };
+
 # sound stuffs
     security.rtkit.enable = true;
     sound.enable = true;
@@ -94,12 +117,16 @@
             neofetch
             unzip
             sl
+            lshw
 #    audio
             pamixer
 #    brightness
             brightnessctl
     ]; 
+
     programs.steam.enable = true;
+    programs.steam.gamescopeSession.enable = true;
+    programs.gamemode.enable = true;
 
     fonts.packages = with pkgs; [
         nerdfonts
