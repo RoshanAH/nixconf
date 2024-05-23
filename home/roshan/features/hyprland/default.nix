@@ -6,7 +6,7 @@
 		extraPortals = [ pkgs.inputs.hyprland.xdg ];
 	};
     xdg.configFile."hypr/wallpapers" = {
-        source = ./wallpapers;
+        source = ../wallpapers;
 		recursive = true;
     };
 
@@ -31,10 +31,10 @@
 			pamixer = "${pkgs.pamixer}/bin/pamixer";
 
 
-            active = "rgba(${config.colorscheme.palette.base0E}ff) rgba(${config.colorscheme.palette.base09}ff) 60deg";
-            inactive = "rgba(${config.colorScheme.palette.base00}ff)";
+            active = "rgba(${config.stylix.base16Scheme.base0E}ff) rgba(${config.stylix.base16Scheme.base09}ff) 60deg";
+            inactive = "rgba(${config.stylix.base16Scheme.base00}ff)";
 		in {
-			monitor = [ ",highrr,auto,1" ];
+			monitor = [ "DP-1,1920x1080@144,0x0,1" ",highrr,auto,1" ];
 			general = {
 				cursor_inactive_timeout = 4;
 				gaps_in = 5;

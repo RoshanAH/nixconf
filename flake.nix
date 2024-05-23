@@ -18,10 +18,8 @@
         url = "github:PrismLauncher/PrismLauncher";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-colors = {
-        url = "github:misterio77/nix-colors";
-        inputs.nixpkgs.follows = "nixpkgs";
-    };
+
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = {
@@ -38,7 +36,10 @@
       razer = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
-        modules = [./modules/nixos/configuration.nix];
+        modules = [
+            ./modules/nixos/configuration.nix
+            inputs.stylix.nixosModules.stylix
+        ];
       };
     };
 
@@ -47,7 +48,10 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
-        modules = [./home/roshan/home.nix];
+        modules = [ 
+            ./home/roshan/home.nix
+            inputs.stylix.homeManagerModules.stylix 
+        ];
       };
     };
   };

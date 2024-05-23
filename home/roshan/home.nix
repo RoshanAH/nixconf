@@ -1,4 +1,4 @@
-# This is your home-manager configuration file
+# This is your home-manager configuration filehome
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
@@ -17,10 +17,7 @@
 	  ./features/hyprland
 	  ./features/nvim
       ./features/alacritty
-      inputs.nix-colors.homeManagerModules.default
   ];
-
-  colorscheme = inputs.nix-colors.colorSchemes.gruvbox-material-dark-medium;
 
   nixpkgs = {
     # You can add overlays here
@@ -51,27 +48,12 @@
   };
 
   home.packages = with pkgs; [
-    firefox
     discord
     fzf
     ripgrep
     fd
     prismlauncher
   ];
-
-  programs.qutebrowser = let
-    inherit (config.colorscheme) palette mode;
-  in {
-      enable = true;
-      settings = {
-          colors = {
-# Becomes either 'dark' or 'light', based on your colors!
-              webpage.preferred_color_scheme = "${config.colorScheme.variant}";
-              tabs.bar.bg = "#${config.colorScheme.palette.base00}";
-              keyhint.fg = "#${config.colorScheme.palette.base05}";
-          };
-      };
-  };
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
@@ -99,6 +81,7 @@
     enableZshIntegration = true;
   };
   programs.zsh.enable = true;
+  programs.firefox.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
