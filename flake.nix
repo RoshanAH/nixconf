@@ -38,6 +38,7 @@
         # > Our main nixos configuration file <
         modules = [
             ./modules/nixos/configuration.nix
+            inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
         ];
       };

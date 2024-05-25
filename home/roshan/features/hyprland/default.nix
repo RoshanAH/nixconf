@@ -5,9 +5,8 @@
 	xdg.portal = {
 		extraPortals = [ pkgs.inputs.hyprland.xdg ];
 	};
-    xdg.configFile."hypr/wallpapers" = {
-        source = ../wallpapers;
-		recursive = true;
+    xdg.configFile."hypr/${builtins.baseNameOf config.stylix.image}" = {
+        source = config.stylix.image;
     };
 
     home.packages = with pkgs; [
@@ -36,13 +35,15 @@
 		in {
 			monitor = [ "DP-1,1920x1080@144,0x0,1" ",highrr,auto,1" ];
 			general = {
-				cursor_inactive_timeout = 4;
 				gaps_in = 5;
 				gaps_out = 10;
 				border_size = 2;
-                "col.active_border" = active;
-                "col.inactive_border" = inactive;
+                "col.active_border" = lib.mkForce active;
+                "col.inactive_border" = lib.mkForce inactive;
 			};
+            cursor = {
+                inactive_timeout = 4;
+            };
 			input = {
 				touchpad.disable_while_typing = false;
 				touchpad.natural_scroll = true;

@@ -55,12 +55,14 @@
     prismlauncher
   ];
 
+  #stylix.image = ./wallpapers/houses.jpg;
+  #stylix.polarity = "dark";
+
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
 
   # Enable home-manager and git
-  programs.home-manager.enable = true;
   programs.git = { 
     enable = true;
     userName = "roshan";
@@ -82,6 +84,7 @@
   };
   programs.zsh.enable = true;
   programs.firefox.enable = true;
+  programs.qutebrowser.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

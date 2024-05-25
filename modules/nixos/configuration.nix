@@ -109,6 +109,7 @@
             unzip
             sl
             lshw
+            obs-studio
 #    audio
             pamixer
 #    brightness
@@ -131,6 +132,13 @@
             isNormalUser = true;
             extraGroups = ["wheel" "networkmanager" "docker"];
             shell = pkgs.zsh;
+        };
+    };
+
+    home-manager = {
+        extraSpecialArgs = { inherit inputs; };
+        users = {
+            "roshan" = import ../../home/roshan/home.nix;
         };
     };
 
