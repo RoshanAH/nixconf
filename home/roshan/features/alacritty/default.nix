@@ -4,7 +4,7 @@
         settings = {
             window = {
                 padding = { x = 10; y = 10; };
-#                opacity = 0.3;
+                opacity = lib.mkForce 0.5;
                 blur = true;
             };
             keyboard.bindings = [

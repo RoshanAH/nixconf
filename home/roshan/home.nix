@@ -53,6 +53,7 @@
     ripgrep
     fd
     prismlauncher
+    ffmpeg
   ];
 
   #stylix.image = ./wallpapers/houses.jpg;

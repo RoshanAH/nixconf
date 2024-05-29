@@ -5,14 +5,26 @@
 	xdg.portal = {
 		extraPortals = [ pkgs.inputs.hyprland.xdg ];
 	};
-    xdg.configFile."hypr/${builtins.baseNameOf config.stylix.image}" = {
-        source = config.stylix.image;
-    };
+#    xdg.configFile."hypr/${builtins.baseNameOf config.stylix.image}" = {
+#        source = config.stylix.image;
+#    };
 
     home.packages = with pkgs; [
         wl-clipboard
+        hyprpaper
         inputs.hyprland-contrib.packages.${pkgs.system}.grimblast 
     ];
+
+    services.hyprpaper = {
+        enable = true;
+        settings = let
+            path = builtins.toString config.stylix.image;
+        in {
+            preload = [ path ];
+            wallpaper = [ ",${path}" ];
+            splash = false;
+        };
+    };
 	
 	wayland.windowManager.hyprland = {
 		enable = true;
@@ -20,7 +32,7 @@
             enable = true;
             extraCommands = lib.mkBefore [
                 "systemctl --user stop graphical-session.target"
-                    "systemctl --user start hyprland-session.target"
+                "systemctl --user start hyprland-session.target"
             ];
         };
 		settings = let 
@@ -30,9 +42,12 @@
 			pamixer = "${pkgs.pamixer}/bin/pamixer";
 
 
-            active = "rgba(${config.stylix.base16Scheme.base0E}ff) rgba(${config.stylix.base16Scheme.base09}ff) 60deg";
+            active = "rgba(${config.stylix.base16Scheme.base0E}ff) rgba(${config.stylix.base16Scheme.base05}ff) 60deg";
             inactive = "rgba(${config.stylix.base16Scheme.base00}ff)";
 		in {
+            exec-once = [
+                "hyprpaper"
+            ];
 			monitor = [ "DP-1,1920x1080@144,0x0,1" ",highrr,auto,1" ];
 			general = {
 				gaps_in = 5;

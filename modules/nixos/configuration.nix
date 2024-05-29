@@ -77,7 +77,7 @@
     };
 
 
-    stylix.image = ../../home/roshan/wallpapers/houses.jpg;
+    stylix.image = ../../home/roshan/wallpapers/houses.png;
     stylix.polarity = "dark";
 
 # sound stuffs
