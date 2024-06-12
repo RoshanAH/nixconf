@@ -52,30 +52,52 @@
     };
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot/efi";
+    boot.kernelParams = [ "button.lid_init_state=open" ];
 
-
-    hardware.opengl = {
-        enable = true;
-        driSupport = true;
-        driSupport32Bit = true;
-    };
-    hardware.nvidia = {
-        modesetting.enable = true;
-        powerManagement.enable = false;
-        powerManagement.finegrained = false;
-        open = false;
-        nvidiaSettings = true;
-        package = config.boot.kernelPackages.nvidiaPackages.stable;
-        prime = {
-            offload = {
-                enable = true;
-                enableOffloadCmd = true;
+    services.xserver.videoDrivers = ["nvidia"];
+    hardware = {
+        opengl = {
+            enable = true;
+            driSupport = true;
+            driSupport32Bit = true;
+        };
+        nvidia = {
+            modesetting.enable = true;
+            powerManagement.enable = false;
+            powerManagement.finegrained = false;
+            open = false;
+            nvidiaSettings = true;
+            package = config.boot.kernelPackages.nvidiaPackages.stable;
+            prime = {
+                offload = {
+                    enable = true;
+                    enableOffloadCmd = true;
+                };
+                amdgpuBusId = "PCI:4:0:0";
+                nvidiaBusId = "PCI:1:0:0";
             };
-            amdgpuBusId = "PCI:4:0:0";
-            nvidiaBusId = "PCI:1:0:0";
+
         };
     };
 
+# well this is sadly all useless now since i can just do this through hyprland 
+#    services.acpid = {
+#        enable = true;
+#        handlers = {
+#            lid-open = {
+#                event = "button/lid LID open.*";
+#                action = let 
+#                    enableMonitor = pkgs.writeShellApplication {
+#                        name = "enable-monitor";
+#                        runtimeInputs = [ pkgs.hyprland pkgs.alacritty ];
+#                        text = ''
+#                            hyprctl keyword monitor eDP-1,1920x1080@144,0x0,1 
+#                            '';
+#                    };
+#                in "${enableMonitor}/bin/enable-monitor";
+#            };
+#        };
+#    };
 
     stylix.image = ../../home/roshan/wallpapers/houses.png;
     stylix.polarity = "dark";
@@ -102,7 +124,17 @@
         xwayland.enable = true;
     };
 
-    environment.systemPackages = with pkgs; [
+
+
+    environment.systemPackages = with pkgs; let 
+        primeOffload = pkgs.writeShellScriptBin "prime-offload" ''
+            export __NV_PRIME_RENDER_OFFLOAD=1
+            export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+            export __GLX_VENDOR_LIBRARY_NAME=nvidia
+            export __VK_LAYER_NV_optimus=NVIDIA_only
+            exec "$@"
+        '';
+    in [
             vim
             wget
             neofetch
@@ -110,6 +142,7 @@
             sl
             lshw
             obs-studio
+            primeOffload
 #    audio
             pamixer
 #    brightness

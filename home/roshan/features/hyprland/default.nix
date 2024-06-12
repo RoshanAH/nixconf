@@ -8,6 +8,12 @@
 #    xdg.configFile."hypr/${builtins.baseNameOf config.stylix.image}" = {
 #        source = config.stylix.image;
 #    };
+#    xdg.configFile."hypr/integrated-card" = {
+#        source = "/dev/dri/by-path/pci-0000:04:00.0-card";
+#    };
+#    xdg.configFile."hypr/card" = {
+#        source = "/dev/dri/by-path/pci-0000:01:00.0-card";
+#    };
 
     home.packages = with pkgs; [
         wl-clipboard
@@ -48,7 +54,7 @@
             exec-once = [
                 "hyprpaper"
             ];
-			monitor = [ "DP-1,1920x1080@144,0x0,1" ",highrr,auto,1" ];
+			monitor = [ "eDP-1,1920x1080@144,0x0,1" ",highrr,auto,1" ];
 			general = {
 				gaps_in = 5;
 				gaps_out = 10;
@@ -134,6 +140,9 @@
                 "ALT,g,exec,qutebrowser"
                 "ALT,d,exec, discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
                 "SUPER,s,exec,grimblast copy area"
+#                ",switch:on:Lid Switch,exec,hyprctl keyword monitor eDP-1,disable"
+#                ",switch:off:Lid Switch,exec,hyprctl keyword monitor eDP-1,1920x1080@144,0x0,1"
+#                ",switch:Lid Switch,exec,alacritty"
 			];
 			binde = [
 				",XF86MonBrightnessUp,exec,${brightnessctl} s 5%+"
@@ -142,6 +151,17 @@
 				",XF86AudioLowerVolume,exec,${pamixer} -d 5"
 				",XF86AudioMute,exec,${pamixer} -t"
 			];
+            bindl = let 
+                monitorCheck = pkgs.writeShellScriptBin "monitor-check" ''
+                if hyprctl monitors | grep -Pq 'Monitor (?!eDP-1)'; then
+                    $@
+                fi
+                '' ;
+            in[
+                ",switch:on:Lid Switch,exec,${monitorCheck}/bin/monitor-check hyprctl keyword monitor eDP-1,disable"
+                ",switch:off:Lid Switch,exec,${monitorCheck}/bin/monitor-check hyprctl keyword monitor eDP-1,1920x1080@144,0x0,1"
+            ];
+
 		};
 	};
 }
