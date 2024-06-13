@@ -14,9 +14,9 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
-	  ./features/hyprland
-	  ./features/nvim
-      ./features/alacritty
+	  ../../modules/hyprland
+	  ../../modules/nvim
+      ../../modules/alacritty
   ];
 
   nixpkgs = {

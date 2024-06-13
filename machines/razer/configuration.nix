@@ -99,7 +99,7 @@
 #        };
 #    };
 
-    stylix.image = ../../home/roshan/wallpapers/houses.png;
+    stylix.image = ../../modules/hyprland/wallpapers/houses.png;
     stylix.polarity = "dark";
 
 # sound stuffs
@@ -123,8 +123,6 @@
         enable = true;
         xwayland.enable = true;
     };
-
-
 
     environment.systemPackages = with pkgs; let 
         primeOffload = pkgs.writeShellScriptBin "prime-offload" ''
@@ -171,7 +169,7 @@
     home-manager = {
         extraSpecialArgs = { inherit inputs; };
         users = {
-            "roshan" = import ../../home/roshan/home.nix;
+            "roshan" = import ./home.nix;
         };
     };
 

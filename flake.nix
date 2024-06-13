@@ -35,25 +35,23 @@
     nixosConfigurations = {
       razer = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
-        # > Our main nixos configuration file <
         modules = [
-            ./modules/nixos/configuration.nix
+            ./machines/razer/configuration.nix
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
         ];
       };
     };
 
-    homeConfigurations = {
-      "roshan@razer" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
-        # > Our main home-manager configuration file <
-        modules = [ 
-            ./home/roshan/home.nix
-            inputs.stylix.homeManagerModules.stylix 
-        ];
-      };
-    };
+#    homeConfigurations = {
+#      "roshan@razer" = home-manager.lib.homeManagerConfiguration {
+#        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+#        extraSpecialArgs = {inherit inputs outputs;};
+#        # > Our main home-manager configuration file <
+#        modules = [ 
+#            ./home/roshan/home.nix
+#        ];
+#      };
+#    };
   };
 }
