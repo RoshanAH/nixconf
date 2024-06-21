@@ -14,9 +14,10 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
-	  ../../modules/hyprland
-	  ../../modules/nvim
-      ../../modules/alacritty
+	  ../../modules/home-manager/hyprland
+	  ../../modules/home-manager/nvim
+      ../../modules/home-manager/alacritty
+      ../../modules/home-manager/fish.nix
   ];
 
   nixpkgs = {
@@ -53,6 +54,7 @@
     ripgrep
     fd
     prismlauncher
+    musescore
     ffmpeg
   ];
 
@@ -64,6 +66,7 @@
   # home.packages = with pkgs; [ steam ];
 
   # Enable home-manager and git
+
   programs.git = { 
     enable = true;
     userName = "roshan";
@@ -72,24 +75,30 @@
       credential.helper = "store";
     };
   };
+
+  programs.nix-index.enableFishIntegration = true;
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
   };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
     enableZshIntegration = true;
   };
+
   programs.zsh.enable = true;
   programs.firefox.enable = true;
-  programs.qutebrowser.enable = true;
+  programs.command-not-found.enable = false;
+
+#  wayland.windowManager.hyprland.settings.env = [ "WLR_DRM_DEVICES,${./integrated-card}" ];
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
-
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.11";
 }

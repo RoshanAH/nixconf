@@ -54,52 +54,33 @@
     boot.loader.efi.efiSysMountPoint = "/boot/efi";
     boot.kernelParams = [ "button.lid_init_state=open" ];
 
-    services.xserver.videoDrivers = ["nvidia"];
-    hardware = {
-        opengl = {
-            enable = true;
-            driSupport = true;
-            driSupport32Bit = true;
-        };
-        nvidia = {
-            modesetting.enable = true;
-            powerManagement.enable = false;
-            powerManagement.finegrained = false;
-            open = false;
-            nvidiaSettings = true;
-            package = config.boot.kernelPackages.nvidiaPackages.stable;
-            prime = {
-                offload = {
-                    enable = true;
-                    enableOffloadCmd = true;
-                };
-                amdgpuBusId = "PCI:4:0:0";
-                nvidiaBusId = "PCI:1:0:0";
-            };
-
-        };
-    };
-
-# well this is sadly all useless now since i can just do this through hyprland 
-#    services.acpid = {
-#        enable = true;
-#        handlers = {
-#            lid-open = {
-#                event = "button/lid LID open.*";
-#                action = let 
-#                    enableMonitor = pkgs.writeShellApplication {
-#                        name = "enable-monitor";
-#                        runtimeInputs = [ pkgs.hyprland pkgs.alacritty ];
-#                        text = ''
-#                            hyprctl keyword monitor eDP-1,1920x1080@144,0x0,1 
-#                            '';
-#                    };
-#                in "${enableMonitor}/bin/enable-monitor";
+#    services.xserver.videoDrivers = ["nvidia"];
+#
+#    hardware = {
+#        opengl = {
+#            enable = true;
+#            driSupport = true;
+#            driSupport32Bit = true;
+#        };
+#        nvidia = {
+#            modesetting.enable = true;
+#            powerManagement.enable = false;
+#            powerManagement.finegrained = false;
+#            open = true;
+#            nvidiaSettings = true;
+#            package = config.boot.kernelPackages.nvidiaPackages.stable;
+#            prime = {
+#                offload = {
+#                    enable = true;
+#                    enableOffloadCmd = true;
+#                };
+#                nvidiaBusId = "PCI:1:0:0";
+#                amdgpuBusId = "PCI:4:0:0";
 #            };
 #        };
 #    };
 
-    stylix.image = ../../modules/hyprland/wallpapers/houses.png;
+    stylix.image = ../../modules/home-manager/hyprland/wallpapers/houses.png;
     stylix.polarity = "dark";
 
 # sound stuffs
@@ -118,32 +99,29 @@
     time.timeZone = "America/Chicago";
 
     programs.zsh.enable = true;
+    programs.fish = {
+        enable = true;
+        vendor = {
+            completions.enable = true;
+            config.enable = true;
+            functions.enable = true;
+        };
+    };
     programs.git.enable = true;
     programs.hyprland = {
         enable = true;
         xwayland.enable = true;
     };
+    programs.command-not-found.enable = false;
 
-    environment.systemPackages = with pkgs; let 
-        primeOffload = pkgs.writeShellScriptBin "prime-offload" ''
-            export __NV_PRIME_RENDER_OFFLOAD=1
-            export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-            export __GLX_VENDOR_LIBRARY_NAME=nvidia
-            export __VK_LAYER_NV_optimus=NVIDIA_only
-            exec "$@"
-        '';
-    in [
+    environment.systemPackages = with pkgs; [
             vim
             wget
             neofetch
             unzip
             sl
-            lshw
             obs-studio
-            primeOffload
-#    audio
             pamixer
-#    brightness
             brightnessctl
     ]; 
 
@@ -162,12 +140,13 @@
         roshan = {
             isNormalUser = true;
             extraGroups = ["wheel" "networkmanager" "docker"];
-            shell = pkgs.zsh;
+            shell = pkgs.fish;
         };
     };
 
     home-manager = {
         extraSpecialArgs = { inherit inputs; };
+        backupFileExtension = "backup";
         users = {
             "roshan" = import ./home.nix;
         };

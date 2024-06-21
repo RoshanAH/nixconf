@@ -61,27 +61,33 @@
 				border_size = 2;
                 "col.active_border" = lib.mkForce active;
                 "col.inactive_border" = lib.mkForce inactive;
+                #allow_tearing = true;
 			};
             cursor = {
                 inactive_timeout = 4;
             };
 			input = {
+                accel_profile = "adaptive";
+                sensitivity = 0.0;
+                force_no_accel = false;
 				touchpad.disable_while_typing = false;
 				touchpad.natural_scroll = true;
 				repeat_rate = 50;
 				repeat_delay = 200;
 				natural_scroll = false;
 			};
-			device = [
-				{
-					name = "razer-razer-viper-v2-pro-1";
-					sensitivity = -0.5;
-				}
-				{
-					name = "razer-razer-viper-v2-pro";
-					sensitivity = -0.5;
-				}
-			];
+
+            device = let 
+                sense = 0.0;
+                accel = "flat";
+                viperNames = [ "razer-razer-viper-v2-pro-1" "razer-razer-viper-v2-pro" ];
+            in map (name: {
+                inherit name;
+                sensitivity = sense;
+                accel_profile = accel;
+            }) viperNames ++ [ /* other devices here */ ];
+
+
 			dwindle = {
 				no_gaps_when_only = 1;
 				preserve_split = true;
@@ -89,10 +95,13 @@
 			};
 			misc = {
 				vfr = true;
+                vrr = 0;
 				disable_hyprland_logo = true;
 				disable_splash_rendering = true;
 				close_special_on_empty = true;
 				focus_on_activate = true;
+                render_ahead_of_time = false;
+                initial_workspace_tracking = 2;
 				# Unfullscreen when opening something
 				new_window_takes_over_fullscreen = 2;
 			};
@@ -140,9 +149,6 @@
                 "ALT,g,exec,qutebrowser"
                 "ALT,d,exec, discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
                 "SUPER,s,exec,grimblast copy area"
-#                ",switch:on:Lid Switch,exec,hyprctl keyword monitor eDP-1,disable"
-#                ",switch:off:Lid Switch,exec,hyprctl keyword monitor eDP-1,1920x1080@144,0x0,1"
-#                ",switch:Lid Switch,exec,alacritty"
 			];
 			binde = [
 				",XF86MonBrightnessUp,exec,${brightnessctl} s 5%+"

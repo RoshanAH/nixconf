@@ -2,9 +2,15 @@
 
     lspServers = with pkgs; [
         { pkg = sumneko-lua-language-server; cfgName = "lua_ls"; }
+        { pkg = rust-analyzer; cfgName = "rust_analyzer"; }
+        { pkg = nixd; cfgName = "nixd"; }
     ];
 
 in {
+
+    imports = [
+#        ./colors.nix
+    ];
 
 	programs.neovim = {
 		enable = true;
@@ -29,18 +35,11 @@ in {
 
         files = recursiveRead ./config;
         out = builtins.listToAttrs (map (filename: { name = "nvim/${filename}"; value = { source = "${./config}/${filename}"; }; }) files);
-    in out;
-
-
-#	xdg.configFile = {
-#        nvim = {
-#            source = ./config;
-#            recursive = true;
-#        };
-##        "lua/plugins/servers.lua".text = ''
-##        {
-##            ${lib.concatStrings (map ( { cfgName, ... }: cfgName + ", \n" ) lspServers)}
-##        }
-##        '';
-#    };
+    in out // {
+        "nvim/lua/plugins/servers.lua".text = ''
+        return {
+        ${lib.concatStrings (map ( { cfgName, ... }: "  \"${cfgName}\",\n" ) lspServers)}
+        }
+        '';
+    };
 }
