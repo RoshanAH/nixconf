@@ -8,7 +8,9 @@
 
 in {
 
-    imports = [ ];
+    imports = [ 
+        ./colors.nix
+    ];
 
 	programs.neovim = {
 		enable = true;
