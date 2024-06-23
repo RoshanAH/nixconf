@@ -67,6 +67,12 @@
 
   # Enable home-manager and git
 
+
+  stylix.targets = {
+      hyprland.enable = false;
+      hyprpaper.enable = false;
+  };
+
   programs.git = { 
     enable = true;
     userName = "roshan";

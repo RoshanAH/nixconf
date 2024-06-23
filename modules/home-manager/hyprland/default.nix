@@ -1,6 +1,7 @@
 { lib, config, pkgs, inputs, ... }: {
 	imports = [
 		./binds.nix		
+        ./cursor.nix
 	];
 	xdg.portal = {
 		extraPortals = [ pkgs.inputs.hyprland.xdg ];
@@ -65,6 +66,7 @@
 			};
             cursor = {
                 inactive_timeout = 4;
+                no_hardware_cursors = true;
             };
 			input = {
                 accel_profile = "adaptive";

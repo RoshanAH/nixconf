@@ -33,12 +33,13 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    flakeRoot = ./.;
   in {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       razer = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs flakeRoot;};
         modules = [
             ./machines/razer/configuration.nix
             inputs.nix-index-database.nixosModules.nix-index
@@ -51,7 +52,7 @@
     homeConfigurations = {
       "roshan@razer" = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {inherit inputs outputs flakeRoot;};
         # > Our main home-manager configuration file <
         modules = [ 
             ./home/roshan/home.nix
