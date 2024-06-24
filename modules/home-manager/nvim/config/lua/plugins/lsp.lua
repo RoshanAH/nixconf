@@ -95,6 +95,8 @@ return {
                 -- to learn the available actions
                 lsp_zero.default_keymaps({buffer = bufnr})
                 vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>', {buffer = bufnr})
+                vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, {buffer = bufnr})
+                vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, {buffer = bufnr})
             end)
 
             lsp_zero.set_sign_icons({
@@ -104,7 +106,7 @@ return {
               info = '»'
             })
 
-            vim.diagnostic.config({ 
+            vim.diagnostic.config({
                 virtual_text = false,
                 severity_sort = true,
             })
