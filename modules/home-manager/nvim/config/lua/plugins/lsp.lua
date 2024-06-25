@@ -10,6 +10,42 @@ return {
             vim.g.lsp_zero_extend_lspconfig = 0
         end,
     },
+    {
+        'onsails/lspkind.nvim',
+        config = function()
+            require('lspkind').init({
+                mode = 'symbol_text',
+                preset = 'default',
+                symbol_map = {
+                    Text = "󰉿",
+                    Method = "󰆧",
+                    Function = "󰊕",
+                    Constructor = "",
+                    Field = "󰜢",
+                    Variable = "󰀫",
+                    Class = "󰠱",
+                    Interface = "",
+                    Module = "",
+                    Property = "󰜢",
+                    Unit = "󰑭",
+                    Value = "󰎠",
+                    Enum = "",
+                    Keyword = "󰌋",
+                    Snippet = "",
+                    Color = "󰏘",
+                    File = "󰈙",
+                    Reference = "󰈇",
+                    Folder = "󰉋",
+                    EnumMember = "",
+                    Constant = "󰏿",
+                    Struct = "󰙅",
+                    Event = "",
+                    Operator = "󰆕",
+                    TypeParameter = "",
+                },
+            })
+        end
+    },
 
     -- Autocompletion
     {
@@ -18,6 +54,7 @@ return {
         dependencies = {
             {'L3MON4D3/LuaSnip'},
             {'onsails/lspkind.nvim'},
+            -- {'jmbuhr/otter.nvim'},
         },
         config = function()
             -- Here is where you configure the autocompletion settings.
@@ -31,6 +68,7 @@ return {
             cmp.setup({
                 sources = {
                     {name = 'nvim_lsp'},
+                    -- {name = 'otter'},
                     {name = 'buffer'},
                     {name = 'path'},
                 },
