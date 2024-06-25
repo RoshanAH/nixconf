@@ -19,23 +19,17 @@ in {
      ".local/share/icons/Bibata-Modern-Ice-hl".source = bibataModernIce;
     };
 
-
-#    home.pointerCursor = {
-#        gtk.enable = true;
-#        package = pkgs.bibata-cursors;
-#        name = "Bibata-Modern-Ice";
-#        size = 32;
-#    };
-
     stylix.cursor = {
         package = pkgs.bibata-cursors;
         name = "Bibata-Modern-Ice";
     };
 
-#    home.packages = [ pkgs.hyprcursor ];
-
     wayland.windowManager.hyprland.settings = {
         env = [ "HYPRCURSOR_THEME,Bibata-Modern-Ice" "HYPRCURSOR_SIZE,${size}"  ];
         exec-once = [ "hyprctl setcursor Bibata-Modern-Ice ${size}" ];
+        cursor = {
+            inactive_timeout = 4;
+            no_hardware_cursors = false;
+        };
     };
 }

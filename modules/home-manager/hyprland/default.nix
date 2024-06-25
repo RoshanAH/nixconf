@@ -64,10 +64,6 @@
                 "col.inactive_border" = lib.mkForce inactive;
                 #allow_tearing = true;
 			};
-            cursor = {
-                inactive_timeout = 4;
-                no_hardware_cursors = true;
-            };
 			input = {
                 accel_profile = "adaptive";
                 sensitivity = 0.0;

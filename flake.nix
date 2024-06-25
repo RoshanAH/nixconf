@@ -14,10 +14,9 @@
         url = "github:hyprwm/contrib";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    prismlauncher = {
-        url = "github:PrismLauncher/PrismLauncher";
-        inputs.nixpkgs.follows = "nixpkgs";
-    };
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+
+    prismlauncher.url = "github:PrismLauncher/PrismLauncher";
 
     nix-index-database = {
         url = "github:nix-community/nix-index-database";

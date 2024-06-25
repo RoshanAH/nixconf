@@ -71,6 +71,7 @@
   stylix.targets = {
       hyprland.enable = false;
       hyprpaper.enable = false;
+      vim.enable = false;
   };
 
   programs.git = { 
@@ -94,7 +95,6 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
-    enableZshIntegration = true;
   };
 
   programs.zsh.enable = true;
