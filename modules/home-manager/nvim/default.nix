@@ -17,7 +17,10 @@ in {
 		defaultEditor = true;
 		viAlias = true;
 		vimAlias = true;
-        extraPackages = map ({ pkg, ... }: pkg) lspServers;
+        extraPackages = (map ({ pkg, ... }: pkg) lspServers) ++ (with pkgs; [
+            make
+            luarocks
+        ]);
     };
 
     xdg.configFile = let
