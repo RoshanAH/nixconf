@@ -514,11 +514,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1719075281,
-        "narHash": "sha256-CyyxvOwFf12I91PBWz43iGT1kjsf5oi6ax7CrvaMyAo=",
+        "lastModified": 1718276985,
+        "narHash": "sha256-u1fA0DYQYdeG+5kDm1bOoGcHtX0rtC7qs2YA2N1X++I=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a71e967ef3694799d0c418c98332f7ff4cc5f6af",
+        "rev": "3f84a279f1a6290ce154c5531378acc827836fbb",
         "type": "github"
       },
       "original": {
@@ -583,11 +583,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1719259661,
-        "narHash": "sha256-ArygP8SfJx5yCeMV5pv/R0PhBWVPY8vcfHZPV0yPLB4=",
+        "lastModified": 1719659389,
+        "narHash": "sha256-ld52sqHaVOe2VwxRr4Qn86NSGgdPBfv7in90WqOx7qg=",
         "owner": "PrismLauncher",
         "repo": "PrismLauncher",
-        "rev": "1fcad8d427c55295d7551588136a729224c74a0e",
+        "rev": "e6234b5086e1623c7c6d238d3de6243cfba06f69",
         "type": "github"
       },
       "original": {

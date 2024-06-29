@@ -42,6 +42,7 @@
         modules = [
             ./machines/razer/configuration.nix
             inputs.nix-index-database.nixosModules.nix-index
+            inputs.nix-index-database.hmModules.nix-index
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
         ];
