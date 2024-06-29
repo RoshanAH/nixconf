@@ -19,7 +19,7 @@ in
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
-      devShells.x86_64-linux.default =
+      devShells.${system}.default =
         pkgs.mkShell {
             nativeBuildInputs = map 
                 ({ name, ... } : (inputName name).legacyPackages.${system}.${name})
