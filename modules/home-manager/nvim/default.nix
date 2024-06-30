@@ -18,7 +18,7 @@ in {
 		viAlias = true;
 		vimAlias = true;
         extraPackages = (map ({ pkg, ... }: pkg) lspServers) ++ (with pkgs; [
-            make
+            gnumake
             luarocks
         ]);
     };
