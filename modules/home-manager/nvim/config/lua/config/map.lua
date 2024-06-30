@@ -24,7 +24,12 @@ keymap("n", "<leader>Y", [["+Y]])
 keymap({"n", "v"}, "<leader>d", [["_d]])
 
 keymap("n", "Q", "<nop>")
--- keymap("n", "<leader>f", vim.lsp.buf.format)
 
 keymap("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 keymap("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- window nav
+keymap("n", "<leader>h", "<C-w>h");
+keymap("n", "<leader>j", "<C-w>j");
+keymap("n", "<leader>k", "<C-w>k");
+keymap("n", "<leader>l", "<C-w>l");
