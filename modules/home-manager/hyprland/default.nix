@@ -99,7 +99,7 @@
 				close_special_on_empty = true;
 				focus_on_activate = true;
                 render_ahead_of_time = false;
-                initial_workspace_tracking = 2;
+                initial_workspace_tracking = 1;
 				# Unfullscreen when opening something
 				new_window_takes_over_fullscreen = 2;
 			};
