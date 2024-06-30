@@ -54,8 +54,9 @@
         extraSpecialArgs = {inherit inputs outputs flakeRoot;};
         # > Our main home-manager configuration file <
         modules = [ 
-            ./home/roshan/home.nix
+            inputs.stylix.homeManagerModules.stylix
             inputs.nix-index-database.hmModules.nix-index
+            ./machines/razer/home.nix
         ];
       };
     };

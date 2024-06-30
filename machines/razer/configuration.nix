@@ -159,6 +159,12 @@
         xwayland.enable = true;
         package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     };
+    programs.nh = {
+        enable = true;
+        clean.enable = true;
+        clean.extraArgs = "--kep-since 4d --keep 3";
+        flake  = "/home/user/roshan/nixconf";
+    };
     programs.command-not-found.enable = false;
 
     environment.systemPackages = with pkgs; [
