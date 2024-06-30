@@ -14,8 +14,8 @@
         url = "github:hyprwm/contrib";
         inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
 
     nix-index-database = {
@@ -42,7 +42,6 @@
         modules = [
             ./machines/razer/configuration.nix
             inputs.nix-index-database.nixosModules.nix-index
-            inputs.nix-index-database.hmModules.nix-index
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
         ];

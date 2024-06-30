@@ -96,11 +96,7 @@
                 echo -n -s $arrow ' '$cwd $repo_info $normal ' '
             '';
         };
-        interactiveShellInit =
-            /*
-               fish
-             */
-            ''
+        interactiveShellInit = /* fish */ ''
 # Open command buffer in vim when ctrl+e is pressed
             bind \ce edit_command_buffer
 
