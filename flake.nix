@@ -35,7 +35,7 @@
     flakeRoot = ./.;
   in {
 
-    packages = import ./pkgs { pkgs = nixpkgs.legacyPackages.x86_64-linux; };
+    packages.x86_64-linux = import ./pkgs { pkgs = nixpkgs.legacyPackages.x86_64-linux; };
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
