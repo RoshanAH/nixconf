@@ -24,6 +24,11 @@
     };
 
     stylix.url = "github:danth/stylix";
+
+    dash = {
+        url = "github:roshanah/dash";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -43,23 +48,10 @@
       razer = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs flakeRoot;};
         modules = [
-            ./machines/razer/configuration.nix
+            ./hosts/razer/configuration.nix
             inputs.nix-index-database.nixosModules.nix-index
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
-        ];
-      };
-    };
-
-    homeConfigurations = {
-      "roshan@razer" = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs flakeRoot;};
-        # > Our main home-manager configuration file <
-        modules = [ 
-            inputs.stylix.homeManagerModules.stylix
-            inputs.nix-index-database.hmModules.nix-index
-            ./machines/razer/home.nix
         ];
       };
     };

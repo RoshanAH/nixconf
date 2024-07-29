@@ -167,15 +167,17 @@
     };
     programs.command-not-found.enable = false;
 
-    environment.systemPackages = with pkgs; [
-            vim
-            wget
-            neofetch
-            unzip
-            sl
-            obs-studio
-            pamixer
-            brightnessctl
+    environment.systemPackages = (with pkgs; [
+        vim
+        wget
+        neofetch
+        unzip
+        sl
+        obs-studio
+        pamixer
+        brightnessctl
+    ]) ++ [
+        inputs.dash.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]; 
 
     programs.steam.enable = true;
