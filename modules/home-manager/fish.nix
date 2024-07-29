@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ...}: {
+{ lib, pkgs, config, inputs, ...}: {
     programs.fish = {
         enable = true;
         functions = {
@@ -96,6 +96,17 @@
                 echo -n -s $arrow ' '$cwd $repo_info $normal ' '
             '';
         };
+
+        loginShellInit = /* fish */ ''
+            echo "auto launch script from fish.nix"
+            if test (tty) = "/dev/tty1"
+                Hyprland
+            else 
+                echo "not using tty1 so not launching hyprland"
+            end
+        '';
+
+
         interactiveShellInit = /* fish */ ''
 # Open command buffer in vim when ctrl+e is pressed
             bind \ce edit_command_buffer
