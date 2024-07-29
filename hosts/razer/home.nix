@@ -80,6 +80,8 @@
     userEmail = "roshanahegde@gmail.com";
     extraConfig = {
       credential.helper = "store";
+      init.defaultBranch = "main";
+      pull.rebase = false;
     };
   };
 
