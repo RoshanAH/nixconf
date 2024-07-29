@@ -117,9 +117,14 @@
 
         polarity = "dark";
         fonts = rec {
+            # monospace = {
+            #     package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+            #     name = "JetBrainsMono Nerd Font Mono";
+            # };
+
             monospace = {
-                package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
-                name = "JetBrainsMono Nerd Font Mono";
+                package = pkgs.nerdfonts.override {fonts = ["Hack"];};
+                name = "Hack Nerd Font";
             };
 
             serif = monospace;
@@ -183,10 +188,6 @@
     programs.steam.enable = true;
     programs.steam.gamescopeSession.enable = true;
     programs.gamemode.enable = true;
-
-    fonts.packages = with pkgs; [
-        nerdfonts
-    ];
 
     security.sudo.wheelNeedsPassword = false;
     virtualisation.docker.enable = true;
