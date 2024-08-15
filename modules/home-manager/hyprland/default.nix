@@ -44,7 +44,7 @@
         };
 		settings = let 
 			terminal = "${pkgs.alacritty}/bin/alacritty";
-			browser = "${pkgs.firefox}/bin/firefox";
+			browser = "${config.programs.firefox.package}/bin/firefox";
 			brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
 			pamixer = "${pkgs.pamixer}/bin/pamixer";
 
