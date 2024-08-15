@@ -100,7 +100,6 @@
   };
 
   programs.zsh.enable = true;
-  programs.firefox.enable = true;
   programs.command-not-found.enable = false;
 
 #  wayland.windowManager.hyprland.settings.env = [ "WLR_DRM_DEVICES,${./integrated-card}" ];
