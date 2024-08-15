@@ -16,9 +16,10 @@
 #        source = "/dev/dri/by-path/pci-0000:01:00.0-card";
 #    };
 
-    home.packages = with pkgs; [
+    home.packages = (with pkgs; [
         wl-clipboard
         hyprpaper
+    ]) ++ [
         inputs.hyprland-contrib.packages.${pkgs.system}.grimblast 
     ];
 
