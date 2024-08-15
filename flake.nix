@@ -29,6 +29,10 @@
         url = "github:roshanah/dash";
         inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    firefox = {
+        url = "github:nix-community/flake-firefox-nightly";
+    };
   };
 
   outputs = {
