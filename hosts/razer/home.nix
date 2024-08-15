@@ -15,7 +15,7 @@
         "fish.nix"
         "firefox.nix"
       ];
-  in map (module: ../../modules/home-manager + module) home-manager;
+  in map (module: ../../modules/home-manager + "/${module}") home-manager;
 
   nixpkgs = {
     overlays = [
