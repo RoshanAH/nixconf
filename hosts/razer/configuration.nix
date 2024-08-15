@@ -168,7 +168,7 @@
         enable = true;
         clean.enable = true;
         clean.extraArgs = "--kep-since 4d --keep 3";
-        flake  = "/home/user/roshan/nixconf";
+        flake  = "/home/roshan/nixconf";
     };
     programs.command-not-found.enable = false;
 
