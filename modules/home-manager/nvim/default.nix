@@ -4,6 +4,7 @@
         { pkg = sumneko-lua-language-server; cfgName = "lua_ls"; }
         { pkg = rust-analyzer; cfgName = "rust_analyzer"; }
         { pkg = nixd; cfgName = "nixd"; }
+        { pkg = tailwindcss-language-server; cfgName = "tailwindcss-language-server"; }
     ];
 
 in {
@@ -20,6 +21,8 @@ in {
         extraPackages = (map ({ pkg, ... }: pkg) lspServers) ++ (with pkgs; [
             gnumake
             luarocks
+            zathura
+            texlive
         ]);
     };
 
