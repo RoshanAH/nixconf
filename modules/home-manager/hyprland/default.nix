@@ -6,15 +6,6 @@
 	xdg.portal = {
 		extraPortals = [ pkgs.inputs.hyprland.xdg ];
 	};
-#    xdg.configFile."hypr/${builtins.baseNameOf config.stylix.image}" = {
-#        source = config.stylix.image;
-#    };
-#    xdg.configFile."hypr/integrated-card" = {
-#        source = "/dev/dri/by-path/pci-0000:04:00.0-card";
-#    };
-#    xdg.configFile."hypr/card" = {
-#        source = "/dev/dri/by-path/pci-0000:01:00.0-card";
-#    };
 
     home.packages = (with pkgs; [
         wl-clipboard
@@ -45,7 +36,10 @@
         };
 		settings = let 
 			terminal = "${pkgs.alacritty}/bin/alacritty";
-			browser = "${config.programs.firefox.package}/bin/firefox";
+			browser = let
+                pkg = config.programs.firefox.package;
+                name = "firefox-nightly";
+            in "${pkg}/bin/${name}";
 			brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
 			pamixer = "${pkgs.pamixer}/bin/pamixer";
 
