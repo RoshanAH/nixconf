@@ -26,7 +26,7 @@
       "ALTSHIFT,c,killactive"
 
       "ALT,space,fullscreen,"
-      "ALTSHIFT,space,fakefullscreen,"
+      "ALTSHIFT,space,fullscreenstate,-1 2"
       "ALT,u,togglefloating"
       "ALT,tab,layoutmsg,swapsplit"
       "ALTSHIFT,tab,layoutmsg,togglesplit"

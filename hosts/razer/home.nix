@@ -45,16 +45,6 @@
     ffmpeg
   ];
 
-  #stylix.image = ./wallpapers/houses.jpg;
-  #stylix.polarity = "dark";
-
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
-
-  # Enable home-manager and git
-
-
   stylix.targets = {
       hyprland.enable = false;
       hyprpaper.enable = false;
@@ -73,13 +63,6 @@
   };
 
   programs.nix-index.enableFishIntegration = true;
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-  };
 
   programs.direnv = {
     enable = true;

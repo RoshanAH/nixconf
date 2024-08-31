@@ -29,7 +29,7 @@ in {
         exec-once = [ "hyprctl setcursor Bibata-Modern-Ice ${size}" ];
         cursor = {
             inactive_timeout = 4;
-            no_hardware_cursors = false;
+            no_hardware_cursors = true;
         };
     };
 }
