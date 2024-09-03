@@ -24,6 +24,18 @@
         settings = {
           view_method = "zathura";
         };
+        texlivePackage = pkgs.texlive.withPackages ( ps: with ps; [
+          scheme-medium
+          changepage
+          arydshln
+          mleftright
+          preprint
+          paralist
+          framed
+          ntheorem
+          datenumber
+          enumitem
+        ]);
       };
 
       fugitive = {
@@ -60,7 +72,11 @@
           };
         };
       };
-    };
 
+    };
+    # extraPackages = with pkgs; [
+    #   texlivePackages.framed
+    #   texliveMedium
+    # ];
   };
 }
