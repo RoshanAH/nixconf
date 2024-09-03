@@ -14,13 +14,15 @@
         servers = {
           tailwindcss.enable = true; # TailwindCSS
           html.enable = true; # HTML
-          svelte.enable = false; # Svelte
+          svelte.enable = true; # Svelte
           pyright.enable = true; # Python
           marksman.enable = true; # Markdown
           nil-ls.enable = true; # Nix
           bashls.enable = true; # Bash
           clangd.enable = true; # C/C++
           yamlls.enable = true; # YAML
+          ltex.enable = true; # latex
+
 
           lua-ls = { # Lua
             enable = true;
