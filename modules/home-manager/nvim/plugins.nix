@@ -38,6 +38,10 @@
         ]);
       };
 
+      molten = {
+        enable = true;
+      };
+
       fugitive = {
         enable = true;
       };
