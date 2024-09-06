@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   programs.nixvim = {
 
     diagnostics = {
@@ -44,6 +44,7 @@
           "K" = "hover";
           "ga" = "code_action";
           "gr" = "rename";
+          "gf" = "format";
         };
         keymaps.diagnostic = {
           "gl" = "open_float";
