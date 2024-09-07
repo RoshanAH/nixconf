@@ -29,6 +29,7 @@ _: {
             settings.telemetry.enable = false;
           };
 
+
           # Rust
           rust-analyzer = {
             enable = true;
