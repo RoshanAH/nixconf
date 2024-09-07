@@ -35,6 +35,8 @@
           ntheorem
           datenumber
           enumitem
+          titlesec
+          fontawesome5
         ]);
       };
 
