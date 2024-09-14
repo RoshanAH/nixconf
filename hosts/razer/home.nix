@@ -1,25 +1,26 @@
 # This is your home-manager configuration filehome
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
+{ inputs
+, lib
+, config
+, pkgs
+, ...
 }: {
-  imports = let
-      home-manager = [ 
-        "hyprland" 
-        "nvim" 
-        "alacritty" 
+  imports =
+    let
+      home-manager = [
+        "hyprland"
+        "nvim"
+        "alacritty"
         "fish.nix"
         "firefox.nix"
       ];
-  in map (module: ../../modules/home-manager + "/${module}") home-manager;
+    in
+    map (module: ../../modules/home-manager + "/${module}") home-manager;
 
   nixpkgs = {
     overlays = [
-        inputs.prismlauncher.overlays.default
+      inputs.prismlauncher.overlays.default
     ];
     # Configure your nixpkgs instance
     config = {
@@ -46,33 +47,33 @@
   ];
 
   stylix.targets = {
-      hyprland.enable = false;
-      hyprpaper.enable = false;
-      vim.enable = false;
+    hyprland.enable = false;
+    hyprpaper.enable = false;
+    vim.enable = false;
   };
 
-  programs.git = { 
-    enable = true;
-    userName = "roshan";
-    userEmail = "roshanahegde@gmail.com";
-    extraConfig = {
-      credential.helper = "store";
-      init.defaultBranch = "main";
-      pull.rebase = false;
+  programs = {
+    zsh.enable = true;
+    command-not-found.enable = false;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
     };
+    nix-index.enableFishIntegration = true;
+    git = {
+      enable = true;
+      userName = "roshan";
+      userEmail = "roshanahegde@gmail.com";
+      extraConfig = {
+        credential.helper = "store";
+        init.defaultBranch = "main";
+        pull.rebase = false;
+      };
+    };
+    spotify-player.enable = true;
   };
 
-  programs.nix-index.enableFishIntegration = true;
-
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  programs.zsh.enable = true;
-  programs.command-not-found.enable = false;
-
-#  wayland.windowManager.hyprland.settings.env = [ "WLR_DRM_DEVICES,${./integrated-card}" ];
+  #  wayland.windowManager.hyprland.settings.env = [ "WLR_DRM_DEVICES,${./integrated-card}" ];
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

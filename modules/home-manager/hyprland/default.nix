@@ -139,8 +139,8 @@
 			bind = [			
 				"ALT,Return,exec,${terminal}"
 				"ALT,f,exec,${browser}"
-                "ALT,g,exec,qutebrowser"
-                "ALT,d,exec, discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
+                "ALT,d,exec,discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
+                "ALT,s,exec,spotify"
                 "SUPER,s,exec,grimblast copy area"
 			];
 			binde = [
