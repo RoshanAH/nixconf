@@ -35,6 +35,7 @@
             ];
         };
 		settings = let 
+			# terminal = "${pkgs.kitty}/bin/kitty";
 			terminal = "${pkgs.alacritty}/bin/alacritty";
 			browser = let
                 pkg = config.programs.firefox.package;

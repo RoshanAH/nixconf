@@ -12,6 +12,7 @@
         "hyprland"
         "nvim"
         "alacritty"
+        "kitty"
         "fish.nix"
         "firefox.nix"
       ];

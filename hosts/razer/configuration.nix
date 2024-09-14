@@ -92,6 +92,7 @@
 
   stylix = {
     enable = true;
+    # enable = false;
 
     image = ../../modules/home-manager/hyprland/wallpapers/houses.png;
     #        base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-medium.yaml";

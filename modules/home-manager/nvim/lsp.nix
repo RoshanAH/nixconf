@@ -21,7 +21,6 @@ _: {
           bashls.enable = true; # Bash
           clangd.enable = true; # C/C++
           yamlls.enable = true; # YAML
-          ltex.enable = true; # latex
 
 
           lua-ls = { # Lua
@@ -29,6 +28,10 @@ _: {
             settings.telemetry.enable = false;
           };
 
+          ltex = { # latex
+            enable = true;
+            settings.ltex-ls.logLevel = "info";
+          };
 
           # Rust
           rust-analyzer = {
@@ -89,7 +92,7 @@ _: {
           };
           completion = {
             luasnip.enable = true;
-            spell.enable = true;
+            #spell.enable = true;
           };
         };
       };
@@ -113,7 +116,6 @@ _: {
                 option.get_bufnrs.__raw = "vim.api.nvim_list_bufs";
                 keywordLength = 3;
               }
-            # { name = "copilot"; } # enable/disable copilot
             {
               name = "path"; # file system paths
               keywordLength = 3;
@@ -137,8 +139,8 @@ _: {
             "<C-b>" = "cmp.mapping.scroll_docs(-4)";
             "<C-f>" = "cmp.mapping.scroll_docs(4)";
             "<C-Space>" = "cmp.mapping.complete()";
-            "<CR>" = "cmp.mapping.confirm({ select = true })";
-            "<S-CR>" = "cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })";
+            "<S-CR>" = "cmp.mapping.confirm({ select = true })";
+            # "<S-CR>" = "cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })";
           };
         };
       };
