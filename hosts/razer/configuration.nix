@@ -124,8 +124,10 @@
       # };
 
       monospace = {
-        package = pkgs.nerdfonts.override { fonts = [ "Hack" ]; };
-        name = "Hack Nerd Font Mono";
+        # package = pkgs.nerdfonts.override { fonts = [ "Hack" ]; };
+        package = pkgs.fira-code-nerdfont;
+        # name = "Hack Nerd Font Mono";
+        name = "Fira Code Nerd Font Mono";
       };
 
       serif = monospace;
