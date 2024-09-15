@@ -123,16 +123,20 @@
       #     name = "JetBrainsMono Nerd Font Mono";
       # };
 
-      monospace = {
-        # package = pkgs.nerdfonts.override { fonts = [ "Hack" ]; };
-        package = pkgs.fira-code-nerdfont;
-        # name = "Hack Nerd Font Mono";
-        name = "Fira Code Nerd Font Mono";
-      };
+      # monospace = {
+      #   package = pkgs.nerdfonts.override {
+      #     fonts = ["JetBrainsMono" "Hack" "FiraCode"];
+      #   };
+      #   name = "Hack Nerd Font Mono";
+      # };
 
-      serif = monospace;
-      sansSerif = monospace;
-      emoji = monospace;
+      # serif = monospace;
+      # sansSerif = monospace;
+      # emoji = monospace;
+
+      serif = config.stylix.fonts.monospace;
+      sansSerif = config.stylix.fonts.monospace;
+      emoji = config.stylix.fonts.monospace;
     };
   };
 
