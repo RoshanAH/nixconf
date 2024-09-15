@@ -45,12 +45,36 @@
     prismlauncher
     musescore
     ffmpeg
+    python3
   ];
 
-  stylix.targets = {
-    hyprland.enable = false;
-    hyprpaper.enable = false;
-    vim.enable = false;
+  stylix = {
+    targets = {
+      hyprland.enable = false;
+      hyprpaper.enable = false;
+      vim.enable = false;
+    };
+    fonts = {
+      # monospace = {
+      #     package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+      #     name = "JetBrainsMono Nerd Font Mono";
+      # };
+
+      monospace = {
+        package = pkgs.nerdfonts.override {
+          fonts = ["FiraCode"];
+        };
+        name = "FiraCode Nerd Font Mono";
+      };
+
+      # serif = monospace;
+      # sansSerif = monospace;
+      # emoji = monospace;
+
+      # serif = config.stylix.fonts.monospace;
+      # sansSerif = config.stylix.fonts.monospace;
+      # emoji = config.stylix.fonts.monospace;
+    };
   };
 
   programs = {

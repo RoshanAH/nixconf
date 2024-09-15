@@ -19,6 +19,10 @@
       harpoon2
     ];
 
+    # extraPackages = with pkgs; [
+    #   python3
+    # ];
+
     extraConfigLua =
       /*
       * lua *
