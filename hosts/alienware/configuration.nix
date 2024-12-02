@@ -45,12 +45,11 @@
     networking.networkmanager.enable = true;
 
     services.openssh = {
-	enable = true;
-	settings.PasswordAuthentication = false;
-	extraConfig = ''
-	    PubkeyAuthentication yes
-	'';
-#	    AuthorizedKeysFile /root/.ssh/authorized_keys
+        enable = true;
+        settings.PasswordAuthentication = false;
+        extraConfig = ''
+            PubkeyAuthentication yes
+        '';
     };
 
     boot.loader.efi.canTouchEfiVariables = true;
