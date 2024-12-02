@@ -46,6 +46,9 @@
           pynvim
           jupyter-client
           cairosvg
+          pnglatex
+          plotly
+          pyperclip
           ipython
           nbformat
         ];

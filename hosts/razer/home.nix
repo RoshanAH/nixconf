@@ -20,9 +20,7 @@
     map (module: ../../modules/home-manager + "/${module}") home-manager;
 
   nixpkgs = {
-    overlays = [
-      inputs.prismlauncher.overlays.default
-    ];
+    overlays = [ ];
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages

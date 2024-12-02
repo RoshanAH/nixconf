@@ -14,6 +14,7 @@
 
   programs.nixvim = {
     enable = true;
+    colorschemes.gruvbox.enable = true;
 
     extraPlugins = with pkgs.vimPlugins; [
       harpoon2
