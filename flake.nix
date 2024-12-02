@@ -63,6 +63,14 @@
             inputs.stylix.nixosModules.stylix
         ];
       };
+      alienware = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs flakeRoot;};
+        modules = [
+            ./hosts/alienware/configuration.nix
+            inputs.nix-index-database.nixosModules.nix-index
+            inputs.home-manager.nixosModules.default
+        ];
+      };
     };
   };
 }
