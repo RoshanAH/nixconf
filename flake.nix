@@ -29,6 +29,14 @@
         url = "github:roshanah/dash";
         inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    firefox = {
+        url = "github:nix-community/flake-firefox-nightly";
+    };
+    nixvim = {
+        url = "github:nix-community/nixvim";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -50,6 +58,7 @@
         modules = [
             ./hosts/razer/configuration.nix
             inputs.nix-index-database.nixosModules.nix-index
+            inputs.nixvim.nixosModules.nixvim
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
         ];

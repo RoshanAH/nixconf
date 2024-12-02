@@ -1,48 +1,54 @@
-{ lib, config, pkgs, ... }: let
+{ lib
+, config
+, pkgs
+, inputs
+, ...
+}: {
+  imports = [
+    inputs.nixvim.homeManagerModules.nixvim
+    ./opts.nix
+    ./maps.nix
+    ./plugins.nix
+    ./lsp.nix
+  ];
 
-    lspServers = with pkgs; [
-        { pkg = sumneko-lua-language-server; cfgName = "lua_ls"; }
-        { pkg = rust-analyzer; cfgName = "rust_analyzer"; }
-        { pkg = nixd; cfgName = "nixd"; }
+  programs.nixvim = {
+    enable = true;
+
+    extraPlugins = with pkgs.vimPlugins; [
+      harpoon2
     ];
 
-in {
+    # extraPackages = with pkgs; [
+    #   python3
+    # ];
 
-    imports = [ 
-        ./colors.nix
-    ];
+    extraConfigLua =
+      /*
+      * lua *
+      */
+      ''
+        local harpoon = require("harpoon")
 
-	programs.neovim = {
-		enable = true;
-		defaultEditor = true;
-		viAlias = true;
-		vimAlias = true;
-        extraPackages = (map ({ pkg, ... }: pkg) lspServers) ++ (with pkgs; [
-            gnumake
-            luarocks
-        ]);
-    };
+        -- REQUIRED
+        harpoon:setup({
+            settings = {
+                save_on_toggle = true,
+                sync_on_ui_close = true,
+                key = function()
+                    return vim.loop.cwd()
+                end,
+            },
+        })
+        -- REQUIRED
 
-    xdg.configFile = let
+        vim.keymap.set("n", "<leader>a", function() harpoon:list():prepend() end)
+        vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
-        recursiveRead = let
-            helper = root: path: let
-                fullpath = if path == "" then root else "${root}/${path}";
-                isDir = builtins.readFileType fullpath == "directory";
-            in if isDir then let
-                dir = builtins.attrNames (builtins.readDir fullpath);
-                prefix = if path == "" then  "" else "${path}/";
-            in builtins.concatLists (map (file: helper root "${prefix}${file}") dir)
-            else [ path ];
-        in path: helper path "";
-
-        files = recursiveRead ./config;
-        out = builtins.listToAttrs (map (filename: { name = "nvim/${filename}"; value = { source = "${./config}/${filename}"; }; }) files);
-    in out // {
-        "nvim/lua/plugins/servers.lua".text = ''
-        return {
-        ${lib.concatStrings (map ( { cfgName, ... }: "  \"${cfgName}\",\n" ) lspServers)}
-        }
-        '';
-    };
+        vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+        vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
+        vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
+        vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+      '';
+  };
 }
