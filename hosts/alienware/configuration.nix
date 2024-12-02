@@ -44,22 +44,17 @@
     networking.hostName = "alienware";
     networking.networkmanager.enable = true;
 
-    boot.loader.grub = {
-        enable = true;
-        device = "nodev";
-        useOSProber = true;
-        timeoutStyle = "hidden";
-        extraEntries = ''
-            menuentry "Windows" {
-                insmod ntfs
-                set root=(hd0,gpt1)
-                chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-            }
-        '';
+    services.openssh = {
+	enable = true;
+	settings.PasswordAuthentication = false;
+	extraConfig = ''
+	    PubkeyAuthentication yes
+	'';
+#	    AuthorizedKeysFile /root/.ssh/authorized_keys
     };
+
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.loader.efi.efiSysMountPoint = "/boot/efi";
-    boot.kernelParams = [ "button.lid_init_state=open" ];
+    boot.loader.systemd-boot.enable = true;
 
     time.timeZone = "America/Chicago";
 
@@ -72,13 +67,6 @@
         };
     };
     programs.git.enable = true;
-
-    programs.nh = {
-        enable = true;
-        clean.enable = true;
-        clean.extraArgs = "--kep-since 4d --keep 3";
-        flake  = "/home/user/roshan/nixconf";
-    };
 
     programs.command-not-found.enable = false;
 
