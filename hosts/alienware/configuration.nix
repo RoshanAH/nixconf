@@ -7,11 +7,12 @@
 }: {
     imports = [
         ./hardware-configuration.nix
+        inputs.nix-minecraft.nixosModules.minecraft-servers
     ];
 
     nixpkgs = {
         overlays = [
-
+          inputs.nix-minecraft.overlay
         ];
         config = {
             allowUnfree = true;
@@ -66,11 +67,11 @@
         };
     };
     programs.git.enable = true;
-
     programs.command-not-found.enable = false;
 
     environment.systemPackages = (with pkgs; [
         vim
+        tmux
         wget
         neofetch
         unzip
@@ -78,6 +79,28 @@
     ]) ++ [
         inputs.dash.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]; 
+
+  services.minecraft-servers = {
+    enable = true;
+    eula = true;
+    openFirewall = true;
+    servers.rmcraft = let
+        modpack = pkgs.fetchPackwizModpack {
+          url = "https://raw.githubusercontent.com/RoshanAH/mc-packs/refs/heads/main/RMCraft/pack.toml";
+          packHash = "sha256-d+a5gPEafisb645esXDRowq5MRQgCUeeHkL37sSG00s=";
+        };
+        mcVersion = modpack.manifest.versions.minecraft;
+        fabricVersion = modpack.manifest.versions.fabric;
+        serverVersion = lib.replaceStrings [ "." ] [ "_" ] "fabric-${mcVersion}";
+    in {
+        enable = true;
+        package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = fabricVersion; };
+        symlinks = {
+          "mods" = "${modpack}/mods";
+      };
+    };
+  };
+    
 
     security.sudo.wheelNeedsPassword = false;
 
