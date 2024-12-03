@@ -55,12 +55,12 @@
 
   programs.nix-index.enableFishIntegration = true;
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-  };
+  # programs.neovim = {
+  #   enable = true;
+  #   defaultEditor = true;
+  #   viAlias = true;
+  #   vimAlias = true;
+  # };
 
   programs.direnv = {
     enable = true;
