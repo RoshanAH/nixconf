@@ -18,6 +18,13 @@
           };
         };
       };
+      mini = {
+        enable = true;
+        modules.icons = {
+
+        };
+        mockDevIcons = true;
+      };
 
       vimtex = {
         enable = true;
@@ -76,16 +83,20 @@
       };
       noice = {
         enable = true;
-        presets = {
-          long_message_to_split = true;
-          lsp_doc_border = true;
-        };
-        views = {
-          mini = {
-            win_options = {
-              winblend = 0;
+        settings = {
+          presets = {
+            long_message_to_split = true;
+            lsp_doc_border = true;
+          };
+
+          views = {
+            mini = {
+              win_options = {
+                winblend = 0;
+              };
             };
           };
+
         };
       };
 
