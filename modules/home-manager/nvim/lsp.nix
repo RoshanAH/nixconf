@@ -17,13 +17,13 @@ _: {
           svelte.enable = true; # Svelte
           pyright.enable = true; # Python
           marksman.enable = true; # Markdown
-          nil-ls.enable = true; # Nix
+          nil_ls.enable = true; # Nix
           bashls.enable = true; # Bash
           clangd.enable = true; # C/C++
           yamlls.enable = true; # YAML
 
 
-          lua-ls = { # Lua
+          lua_ls = { # Lua
             enable = true;
             settings.telemetry.enable = false;
           };
@@ -34,7 +34,7 @@ _: {
           };
 
           # Rust
-          rust-analyzer = {
+          rust_analyzer = {
             enable = true;
             installRustc = true;
             installCargo = true;
