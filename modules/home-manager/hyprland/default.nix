@@ -103,7 +103,6 @@
           ];
 
         dwindle = {
-          no_gaps_when_only = 1;
           preserve_split = true;
           force_split = 2;
         };
@@ -131,8 +130,20 @@
             new_optimizations = true;
             ignore_opacity = false;
           };
-          drop_shadow = false;
+          shadow.enabled = false;
         };
+
+        workspace = [
+          "w[tv1], gapsout:0, gapsin:0"
+          "f[1], gapsout:0, gapsin:0"
+        ];
+
+        windowrulev2 = [
+          "bordersize 0, floating:0, onworkspace:w[tv1]"
+          "rounding 0, floating:0, onworkspace:w[tv1]"
+          "bordersize 0, floating:0, onworkspace:f[1]"
+          "rounding 0, floating:0, onworkspace:f[1]"
+        ];
 
         animations = {
           enabled = true;
