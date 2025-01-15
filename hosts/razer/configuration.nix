@@ -26,10 +26,12 @@
       substituters = [
         "https://hyprland.cachix.org"
         "https://cache.garnix.io"
+        "https://prismlauncher.cachix.org"
       ];
       trusted-public-keys = [
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        "prismlauncher.cachix.org-1:9/n/FGyABA2jLUVfY+DEp4hKds/rwO+SCOtbOkDzd+c="
       ];
     };
   };
@@ -66,29 +68,33 @@
     kernelParams = [ "button.lid_init_state=open" ];
   };
 
+
+  # Nvidia stuff
+
   # services.xserver.videoDrivers = [ "nvidia" ];
-  #
   # hardware = {
-  #   opengl = {
-  #     enable = true;
-  #   };
-  #   nvidia = {
-  #     modesetting.enable = true;
+  #   graphics.enable = true;
+  #
+    # nvidia = {
+    #   modesetting.enable = true;
   #     powerManagement.enable = false;
   #     powerManagement.finegrained = false;
-  #     open = true;
+      # open = false;
   #     nvidiaSettings = true;
-  #     package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # package = config.boot.kernelPackages.nvidiaPackages.beta;
   #     prime = {
   #       offload = {
   #         enable = true;
   #         enableOffloadCmd = true;
   #       };
+  #       # sync.enable = true;
   #       nvidiaBusId = "PCI:1:0:0";
   #       amdgpuBusId = "PCI:4:0:0";
   #     };
-  #   };
+    # };
   # };
+
+  hardware.keyboard.qmk.enable = true;
 
   stylix = {
     enable = true;
