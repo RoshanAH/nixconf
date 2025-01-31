@@ -17,7 +17,8 @@
         "firefox.nix"
       ];
     in
-    map (module: ../../modules/home-manager + "/${module}") home-manager;
+      (map (module: ../../modules/home-manager + "/${module}") home-manager) ++
+    [./mscr];
 
   nixpkgs = {
     overlays = [ ];
@@ -35,15 +36,17 @@
     homeDirectory = "/home/roshan";
   };
 
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     discord
     fzf
     ripgrep
     fd
-    prismlauncher
     musescore
     ffmpeg
     python3
+    osu-lazer
+  ]) ++ [
+    inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
   ];
 
   stylix = {
@@ -97,7 +100,9 @@
     spotify-player.enable = true;
   };
 
-  #  wayland.windowManager.hyprland.settings.env = [ "WLR_DRM_DEVICES,${./integrated-card}" ];
+   # wayland.windowManager.hyprland.settings.env = [ "AQ_DRM_DEVICES,${./integrated-card}" ];
+   # # wayland.windowManager.hyprland.settings.env = [ "AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:04:00.0-card" ];
+   # wayland.windowManager.hyprland.settings.env = [ "AQ_DRM_DEVICES,/dev/dri/card1" ];
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

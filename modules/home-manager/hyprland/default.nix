@@ -85,7 +85,7 @@
 
         device =
           let
-            sense = 0.0;
+            sense = -0.870000;
             accel = "flat";
             viperNames = [ "razer-razer-viper-v2-pro-1" "razer-razer-viper-v2-pro" ];
           in
@@ -174,6 +174,7 @@
           "ALT,d,exec,discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
           "ALT,s,exec,spotify"
           "SUPER,s,exec,grimblast copy area"
+          ", F9, pass, ^(com\.obsproject\.Studio)$" # obs replay buffer
         ];
         binde = [
           ",XF86MonBrightnessUp,exec,${brightnessctl} s 5%+"
