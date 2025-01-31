@@ -63,7 +63,7 @@
         exec-once = [
           "hyprpaper"
         ];
-        monitor = [ "eDP-1,1920x1080@144,0x0,1" ",highrr,auto,1" ];
+        monitor = [ "eDP-1,1920x1080@144,0x0,1" "HDMI-A-1,1920x1080@144.00,auto,1" ",highrr,auto,1" ];
         general = {
           gaps_in = 5;
           gaps_out = 10;
@@ -87,7 +87,12 @@
           let
             sense = -0.870000;
             accel = "flat";
-            viperNames = [ "razer-razer-viper-v2-pro-1" "razer-razer-viper-v2-pro" ];
+            viperNames = [ 
+              "razer-razer-viper-v2-pro" 
+              "razer-razer-viper-v2-pro-1" 
+              "razer-razer-viper-v2-pro-2" 
+              "razer-razer-viper-v2-pro-3" 
+            ];
           in
           map
             (name: {

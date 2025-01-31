@@ -12,8 +12,10 @@
     ./lsp.nix
   ];
 
+
   programs.nixvim = {
     enable = true;
+    defaultEditor = true;
     colorschemes.gruvbox.enable = true;
 
     extraPlugins = with pkgs.vimPlugins; [

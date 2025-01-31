@@ -96,6 +96,11 @@
 
   hardware.keyboard.qmk.enable = true;
 
+  hardware.openrazer = {
+    enable = true;
+    users = ["roshan"];
+  };
+
   stylix = {
     enable = true;
     # enable = false;
@@ -193,6 +198,8 @@
       obs-studio
       pamixer
       brightnessctl
+      polychromatic
+      openrazer-daemon
     ])
     ++ [
       inputs.dash.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -208,7 +215,7 @@
   users.users = {
     roshan = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "docker" ];
+      extraGroups = [ "wheel" "networkmanager" "docker" "openrazer"];
       shell = pkgs.fish;
     };
   };

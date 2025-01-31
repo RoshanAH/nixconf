@@ -15,10 +15,11 @@
         "kitty"
         "fish.nix"
         "firefox.nix"
+        "scripts/repo-find"
       ];
     in
       (map (module: ../../modules/home-manager + "/${module}") home-manager) ++
-    [./mscr];
+    [./mcsr];
 
   nixpkgs = {
     overlays = [ ];
@@ -48,6 +49,16 @@
   ]) ++ [
     inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
   ];
+
+  repo-find = {
+    enable = true;
+    fishBindings = [
+      {
+        bind = "\\cp";
+        directory = "${config.home.homeDirectory}/repos";
+      }
+    ];
+  };
 
   stylix = {
     targets = {
@@ -100,8 +111,7 @@
     spotify-player.enable = true;
   };
 
-   # wayland.windowManager.hyprland.settings.env = [ "AQ_DRM_DEVICES,${./integrated-card}" ];
-   # # wayland.windowManager.hyprland.settings.env = [ "AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:04:00.0-card" ];
+  # wayland.windowManager.hyprland.settings.env = [ "AQ_DRM_DEVICES,${./integrated-card}" ];
    # wayland.windowManager.hyprland.settings.env = [ "AQ_DRM_DEVICES,/dev/dri/card1" ];
 
   # Nicely reload system units when changing configs

@@ -1,62 +1,112 @@
-{ lib, ... }: { wayland.windowManager.hyprland.settings = let
-    eyeMacroWidth = 384;
-    eyeMacroHeight = 16384;
-    in {
-    windowrulev2 = [
-      "noanim,class:(Minecraft) "
-    ];
-    extraConfig = ''
+{ lib, pkgs, inputs, ... }: let
+      minecraftRegex = "title:^(Minecraft)";
+      eyeProjectorRegex = "title:(Windowed Projector).*(Eye)";
+      ninbotRegex = "title:^(Ninjabrain Bot )$";
+  in { 
+  
+  home.packages = (with pkgs; [
+    jdk
+  ]) ++ [
+    inputs.ninjabrainbot.packages.${pkgs.stdenv.hostPlatform.system}.default
+  ];
+
+  wayland.windowManager.hyprland = {
+    settings = {
+      windowrulev2 = [
+        "noanim,${minecraftRegex} "
+        "noborder,${minecraftRegex}"
+        "noanim, ${eyeProjectorRegex}"
+        "float, ${eyeProjectorRegex}"
+        "size 40% 40%, ${eyeProjectorRegex}"
+        "move 0% 30%, ${eyeProjectorRegex}"
+        "nofocus, ${eyeProjectorRegex}"
+        "noborder, ${eyeProjectorRegex}"
+        "workspace name:mcsr silent, ${eyeProjectorRegex}"
+        "noanim, ${ninbotRegex}$"
+        "float, ${ninbotRegex}$"
+        "move 100%-w-0 20%, ${ninbotRegex}$"
+        "noborder, ${ninbotRegex}$"
+        "workspace name:mcsr silent, ${ninbotRegex}$"
+      ];
+    };
+
+    extraConfig =  let
+      eyeMacroWidth = "384";
+      eyeMacroHeight = "16384";
+
+      thinMacroWidth = "500";
+      wideMacroHeight = "400";
+
+      zoomDPI = "100";
+      normalDPI = "3200";
+
+      resetMC = bind: ''
+bind=,${bind},focuswindow,${minecraftRegex}
+bind=,${bind},resizeactive,exact 100% 100%
+bind=,${bind},centerwindow
+bind=,${bind},submap,reset
+      '';
+
+
+      resizeMC = {bind, width, height} : ''
+bind=,${bind},focuswindow,${minecraftRegex}
+bind=,${bind},fullscreenstate,0
+bind=,${bind},setfloating,active
+bind=,${bind},resizeactive,exact ${width} ${height}
+bind=,${bind},centerwindow
+      '';
+
+    in ''
 bind=ALTSHIFT,m,submap,mcsr
 
 submap = mcsr
     bind=,escape,submap,reset
 
-    bind=,e,focuswindow,class:(Minecraft) # eye zoom macro
-    bind=,e,fullscreenstate,0
-    bind=,e,setfloating,active
-    bind=,e,resizeactive,exact 384 16384
-    bind=,e,centerwindow
+    ${resizeMC {bind = "e"; width = eyeMacroWidth; height = eyeMacroHeight;}}
+    bind=,e,pin,${eyeProjectorRegex}
+    bind=,e,exec,polychromatic-cli -d mouse --dpi ${zoomDPI}
     bind=,e,submap,eye
 
     submap = eye
-        bind=,e,focuswindow,class:(Minecraft)
-        bind=,e,resizeactive,exact 50% 50%
-        bind=,e,centerwindow
-        bind=,e,fullscreenstate,2
-        bind=,e,submap,reset
+        bind=ALT,escape,submap,reset
+        bind=,e,pin,${eyeProjectorRegex}
+        bind=,e,movetoworkspacesilent,name:mcsr,${eyeProjectorRegex}
+        bind=,e,exec,polychromatic-cli -d mouse --dpi ${normalDPI}
+        ${resetMC "e"}
     submap = mcsr
 
-    bind=,l,focuswindow,class:(Minecraft) # thin macro
-    bind=,l,fullscreenstate,0
-    bind=,l,setfloating,active
-    bind=,l,resizeactive,exact 500 100%
-    bind=,l,centerwindow
+    ${resizeMC {bind = "l"; width = thinMacroWidth; height = "100%";}}
     bind=,l,submap,thin
 
     submap = thin
-        bind=,l,focuswindow,class:(Minecraft)
-        bind=,l,resizeactive,exact 50% 50%
-        bind=,l,centerwindow
-        bind=,l,fullscreenstate,2
-        bind=,l,submap,reset
+        bind=ALT,escape,submap,reset
+        ${resetMC "l"}
     submap = mcsr
 
-
-    bind=,k,focuswindow,class:(Minecraft) # wide macro
-    bind=,k,fullscreenstate,0
-    bind=,k,setfloating,active
-    bind=,k,resizeactive,exact 100% 400
-    bind=,k,centerwindow
+    ${resizeMC {bind = "k"; width = "100%"; height = wideMacroHeight;}}
     bind=,k,submap,wide
 
     submap = wide
-        bind=,k,focuswindow,class:(Minecraft)
-        bind=,k,resizeactive,exact 50% 50%
-        bind=,k,centerwindow
-        bind=,k,fullscreenstate,2
-        bind=,k,submap,reset
+        bind=ALT,escape,submap,reset
+        ${resetMC "k"}
     submap = mcsr
 
+    bind=,c,closewindow,${eyeProjectorRegex} # close eye projector
+    bind=,c,submap,reset
+
+    bind=,p,pin,${eyeProjectorRegex} # manually toggle eye projector
+    bind=,p,movetoworkspacesilent,name:mcsr,${eyeProjectorRegex}
+    bind=,p,submap,reset
+    
+    bind=,n,pin,${ninbotRegex}$ # manually toggle ninjabrain bot
+    bind=,n,movetoworkspacesilent,name:mcsr,${ninbotRegex}$
+    bind=,n,submap,reset
+
+    bind=,o,exec,obs # open
+    bind=,o,exec,prismlauncher
+    bind=,o,exec,NinjaBrain-Bot
+    bind=,o,submap,reset
+ 
 submap = reset
     '';
   };
