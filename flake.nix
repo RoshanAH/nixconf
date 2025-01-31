@@ -30,11 +30,20 @@
         inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ninjabrainbot = {
+      url = "github:roshanah/ninjabrainbot-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     firefox = {
         url = "github:nix-community/flake-firefox-nightly";
     };
     nixvim = {
         url = "github:nix-community/nixvim";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
+    asm-lsp = {
+        url = "github:roshanah/asm-lsp-flake";
         inputs.nixpkgs.follows = "nixpkgs";
     };
 

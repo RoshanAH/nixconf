@@ -1,9 +1,12 @@
 { lib, config
 , pkgs
-}: with lib; {
+, ...
+}: let
+  inherit (lib) types mkEnableOption mkOption mkIf concatLines;
+in {
   options.repo-find = {
 
-    enabled = mkEnableOption "repo-find";
+    enable = mkEnableOption "repo-find";
     fishBindings = let
       fishBindOptions.options = {
         bind = mkOption {
@@ -25,15 +28,20 @@
   };
 
   config = let
+    fishEnabled = config.programs.fish.enable;
       pkg = pkgs.callPackage ./package.nix {};
-    in mkIf options.repo-find.enabled {
+    in mkIf config.repo-find.enable {
     home.packages = [
         pkg
     ];
     programs.fish.interactiveShellInit = let 
-      bindToStr = {bind, directory}: 
-        "bind ${bind} cd (${pkg}/bin/${pkg.pname} ${directory})";
-      in mkIf config.programs.fish.enabled
-      concatLines (map bindToStr options.fishBindings);
+      bindToStr = {bind, directory}: ''
+        bind -M normal ${bind} "cd (${pkg}/bin/${pkg.name} ${directory}); commandline -f repaint"
+        bind -M insert ${bind} "cd (${pkg}/bin/${pkg.name} ${directory}); commandline -f repaint"
+
+      '';
+      in mkIf fishEnabled ''
+          ${(concatLines (map bindToStr config.repo-find.fishBindings))}
+      '';
   };
 }
