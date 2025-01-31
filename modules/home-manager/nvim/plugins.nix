@@ -44,6 +44,7 @@
           enumitem
           titlesec
           fontawesome5
+          amsrefs
         ]);
       };
 
