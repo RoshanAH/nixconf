@@ -24,6 +24,19 @@
       { action = "<C-w>k"; key = "<leader>k"; mode = "n"; }
       { action = "<C-w>l"; key = "<leader>l"; mode = "n"; }
 
+
+
+
+      { key = "{}";   action = "{}<esc>i"; mode = "i"; }
+      { key = "()";   action = "()<esc>i"; mode = "i"; }
+      { key = "( )";   action = "()"; mode = "i"; }
+      { key = "[]";   action = "[]<esc>i"; mode = "i"; }
+      { key = "\"\""; action = "\"\"<esc>i"; mode = "i"; }
+      { key = "\'\'"; action = "\'\'<esc>i"; mode = "i"; }
+      { key = "{<cr>";  action = "{<cr>}<esc>==O"; mode = "i"; }
+      { key = "(<cr>";  action = "(<cr>)<esc>==O"; mode = "i"; }
+      { key = "[<cr>";  action = "[<cr>]<esc>==O"; mode = "i"; }
+
       # telescope 
       {
         action = "<cmd>Telescope live_grep<CR>";

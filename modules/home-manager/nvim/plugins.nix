@@ -7,7 +7,7 @@
       nix.enable = true;
       ts-autotag.enable = true;
       transparent.enable = true;
-      nvim-autopairs.enable = true;
+      # nvim-autopairs.enable = true;
       luasnip.enable = true;
 
       telescope = {
@@ -32,19 +32,7 @@
           view_method = "zathura";
         };
         texlivePackage = pkgs.texlive.withPackages ( ps: with ps; [
-          scheme-medium
-          changepage
-          arydshln
-          mleftright
-          preprint
-          paralist
-          framed
-          ntheorem
-          datenumber
-          enumitem
-          titlesec
-          fontawesome5
-          amsrefs
+          scheme-full
         ]);
       };
 
@@ -90,6 +78,16 @@
             lsp_doc_border = true;
           };
 
+          lsp = {
+            hover.enabled = true;
+            progress.enabled = false;
+            override = {
+              "cmp.entry.get_documentation" = true;
+              "vim.lsp.util.convert_input_to_markdown_lines" = true;
+              "vim.lsp.util.stylize_markdown" = true;
+            };
+          };
+
           views = {
             mini = {
               win_options = {
@@ -97,7 +95,12 @@
               };
             };
           };
-
+          routes = [
+            {
+              view = "notify";
+              filter = { event = "msg_showmode";};
+            }
+          ];
         };
       };
 

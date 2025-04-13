@@ -1,5 +1,4 @@
 { config, ... } : {
-
   programs.nixvim = {
     opts = {
       nu = true;
