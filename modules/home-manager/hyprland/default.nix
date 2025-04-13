@@ -9,7 +9,7 @@
     ./cursor.nix
   ];
   xdg.portal = {
-    extraPortals = [ pkgs.inputs.hyprland.xdg ];
+    extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
   };
 
   home.packages =

@@ -110,6 +110,7 @@
         interactiveShellInit = /* fish */ ''
 # Open command buffer in vim when ctrl+e is pressed
             bind \ce edit_command_buffer
+            bind -M insert \ce edit_command_buffer
 
 # Use vim bindings and cursors
             fish_vi_key_bindings

@@ -1,6 +1,4 @@
 { lib
-, config
-, pkgs
 , ...
 }: {
   xdg.mimeApps = {
@@ -19,7 +17,8 @@
       "ctrl+n" = "new_os_window_with_cwd";
     };
     settings = {
-      background_opacity = lib.mkForce "0.5";
+      # background_opacity = lib.mkForce "0.5";
+      # background_opacity = lib.mkForce "0.9";
       linux_display_server = "wayland";
       scrollback_lines = 4000;
       scrollback_pager_history_size = 100000;
