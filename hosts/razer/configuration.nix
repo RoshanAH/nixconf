@@ -2,6 +2,7 @@
 , lib
 , config
 , pkgs
+, options
 , ...
 }: {
   imports = [
@@ -66,6 +67,49 @@
       efi.efiSysMountPoint = "/boot/efi";
     };
     kernelParams = [ "button.lid_init_state=open" ];
+  };
+
+
+  # hack for when i just want things to be fhs compliant
+  programs.nix-ld = {
+    enable = true;
+    libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [
+      alsa-lib # electron
+      at-spi2-atk # electron
+      cairo # electron
+      cups # electron
+      dbus # electron
+      expat # electron
+      gdk-pixbuf # electron
+      glib # electron
+      gtk3 # electron
+      gtk4 # electron
+      nss # electron
+      nspr # electron
+      xorg.libX11 # electron
+      xorg.libxcb # electron
+      xorg.libXcomposite # electron
+      xorg.libXdamage # electron
+      xorg.libXext # electron
+      xorg.libXfixes # electron
+      xorg.libXrandr # electron
+      xorg.libxkbfile # electron
+      xorg.libxshmfence # electron
+      pango # electron
+      pciutils # electron
+      stdenv.cc.cc # electron
+      systemd # electron
+      libnotify # electron
+      pipewire # electron
+      libsecret # electron
+      libpulseaudio # electron
+      speechd-minimal # electron
+      libdrm # electron
+      mesa # electron
+      libxkbcommon # electron
+      libGL # electron
+      vulkan-loader # electron
+    ]);
   };
 
 
@@ -179,6 +223,7 @@
     enable = true;
     xwayland.enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
   programs.nh = {
     enable = true;
