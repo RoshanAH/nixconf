@@ -15,6 +15,7 @@
         "kitty"
         "fish.nix"
         "firefox.nix"
+        "tmux.nix"
         "scripts/repo-find"
       ];
     in
@@ -67,26 +68,11 @@
       vim.enable = false;
     };
     fonts = {
-      # monospace = {
-      #     package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
-      #     name = "JetBrainsMono Nerd Font Mono";
-      # };
-
       monospace = {
-        # package = pkgs.nerdfonts.override {
-        #   fonts = ["FiraCode"];
-        # };
         package = pkgs.nerd-fonts.fira-code;
         name = "FiraCode Nerd Font Mono";
       };
 
-      # serif = monospace;
-      # sansSerif = monospace;
-      # emoji = monospace;
-
-      # serif = config.stylix.fonts.monospace;
-      # sansSerif = config.stylix.fonts.monospace;
-      # emoji = config.stylix.fonts.monospace;
     };
   };
 
