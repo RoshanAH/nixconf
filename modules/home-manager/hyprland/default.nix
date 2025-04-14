@@ -129,7 +129,8 @@
           fullscreen_opacity = 1.0;
           rounding = 0;
           blur = {
-            enabled = true;
+            # enabled = true;
+            enabled = false;
             size = 5;
             passes = 3;
             new_optimizations = true;
@@ -151,7 +152,8 @@
         ];
 
         animations = {
-          enabled = true;
+          # enabled = true;
+          enabled = false;
           bezier = [
             "snap,0.2,1,.5,1"
             "fling,.4,-0.5,1,.8"
