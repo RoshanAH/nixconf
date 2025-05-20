@@ -9,7 +9,6 @@
 
     plugins = {
       otter.enable = true;
-
       typescript-tools.enable = true;
       # lsp
       lsp = {

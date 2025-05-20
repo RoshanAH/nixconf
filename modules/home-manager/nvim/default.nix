@@ -26,6 +26,20 @@
     #   python3
     # ];
 
+    autoCmd = [
+        {
+          command = "mkview";
+          pattern = [ "*.*" ];
+          event = [ "BufWinLeave" ];
+        }
+
+        {
+          command = "silent! loadview";
+          pattern = [ "*.*" ];
+          event = [ "BufWinEnter" ];
+        }
+    ];
+
     extraConfigLua =
       /*
       * lua *

@@ -1,8 +1,5 @@
-{ pkgs,
-  ... 
-}: {
+{ pkgs, ... }: {
   programs.nixvim = {
-
     plugins = {
       nix.enable = true;
       ts-autotag.enable = true;
@@ -17,12 +14,15 @@
             enable = true;
           };
         };
+        keymaps = {
+          "<leader>fs" = "lsp_dynamic_workspace_symbols";
+          "<leader>fr" = "lsp_references";
+        };
       };
+
       mini = {
         enable = true;
-        modules.icons = {
-
-        };
+        modules.icons = { };
         mockDevIcons = true;
       };
 
@@ -31,23 +31,25 @@
         settings = {
           view_method = "zathura";
         };
-        texlivePackage = pkgs.texlive.withPackages ( ps: with ps; [
-          scheme-full
-        ]);
+        texlivePackage = pkgs.texlive.withPackages (ps:
+          with ps; [
+            scheme-full
+          ]);
       };
 
       molten = {
         enable = true;
-        python3Dependencies = p: with p; [
-          pynvim
-          jupyter-client
-          cairosvg
-          pnglatex
-          plotly
-          pyperclip
-          ipython
-          nbformat
-        ];
+        python3Dependencies = p:
+          with p; [
+            pynvim
+            jupyter-client
+            cairosvg
+            pnglatex
+            plotly
+            pyperclip
+            ipython
+            nbformat
+          ];
       };
 
       fugitive = {
@@ -59,6 +61,43 @@
         settings = {
           autoOpenDiff = true;
           focusOnToggle = true;
+        };
+      };
+
+      lualine = {
+        enable = true;
+        settings = {
+          options = {
+            icons_enabled = true;
+            theme = "auto";
+            section_separators = {
+              left = "█";
+              right = "█";
+            };
+            component_separators = {
+              left = "╱";
+              right = "╱";
+            };
+            always_divide_middle = true;
+            always_show_tabline = true;
+            globalstatus = false;
+            refresh = {
+              statusline = 100;
+              tabline = 100;
+              winbar = 100;
+            };
+          };
+          sections = {
+            lualine_a = [ "mode" ];
+            lualine_b = [ "branch" "diagnostics" ];
+            lualine_c = [ "filename" ];
+            lualine_x = [ "" ] ;
+            lualine_y = [ "progress" ];
+            lualine_z = [ "location" ];
+          };
+          inactive_sections = {
+            lualine_x = null;
+          };
         };
       };
 
@@ -98,12 +137,11 @@
           routes = [
             {
               view = "notify";
-              filter = { event = "msg_showmode";};
+              filter = { event = "msg_showmode"; };
             }
           ];
         };
       };
-
     };
     # extraPackages = with pkgs; [
     #   texlivePackages.framed

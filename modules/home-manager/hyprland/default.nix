@@ -63,7 +63,7 @@
         exec-once = [
           "hyprpaper"
         ];
-        monitor = [ "eDP-1,1920x1080@144,0x0,1" "HDMI-A-1,1920x1080@144.00,auto,1" ",highrr,auto,1" ];
+        monitor = [ "eDP-1,1920x1080@144,0x0,1" "desc:TTG GM-GFT-27FTQB 0000000000001,1920x1080@144.00,auto,1" ", preferred,auto,1, mirror, eDP-1" ];
         general = {
           gaps_in = 5;
           gaps_out = 10;
