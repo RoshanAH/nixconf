@@ -16,6 +16,7 @@
     # ./nvim.nix
       ../../modules/home-manager/nvim
       ../../modules/home-manager/fish.nix
+      ../../modules/home-manager/tmux.nix
   ];
 
   nixpkgs = {
