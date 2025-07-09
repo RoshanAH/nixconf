@@ -54,9 +54,14 @@
 
   services.openssh = {
     enable = true;
-    settings.PasswordAuthentication = false;
+    settings = {
+      PasswordAuthentication = true;
+      PubkeyAuthentication = true;
+    };
     extraConfig = ''
-      PubkeyAuthentication yes
+      Match User roshan
+         PasswordAuthentication no
+         KbdInteractiveAuthentication no
     '';
   };
 
@@ -168,7 +173,7 @@
         let
           modpack = pkgs.fetchPackwizModpack {
             url = "https://raw.githubusercontent.com/RoshanAH/mc-packs/refs/heads/main/smoll/pack.toml";
-            packHash = "sha256-fMi1HMwLVOtbmqSmVYWaZ77+BgvQ+k3l8vpIUKQ0DT0=";
+            packHash = "sha256-eoP7Bku0i5L0Qn+nb0wkiVFAmDUALsJiDfEXYxunohA=";
           };
           mcVersion = modpack.manifest.versions.minecraft;
           serverVersion = lib.replaceStrings [ "." ] [ "_" ] "fabric-${mcVersion}";
@@ -186,7 +191,7 @@
         in
         {
           enable = true;
-          package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = "0.16.1"; };
+          package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = "0.16.14"; };
           symlinks = {
             "mods" = "${modpack}/mods";
           };
@@ -203,13 +208,20 @@
         extraGroups = [ "wheel" "networkmanager" "docker" ];
         shell = pkgs.fish;
       };
+      guest = {
+        isNormalUser = true;
+        extraGroups = [ ];
+        shell = pkgs.fish;
+        hashedPassword = "$6$ZZYRCjlHr.oK1aV6$.6cekkZayXF19KJzmLFCLWfohNBluYh/R290ySqL1.mYA6UpTkRRPRVL4NppbU6/On.sVcRy3H7DsZ.QeGbH5.";
+      };
     };
 
     home-manager = {
       extraSpecialArgs = { inherit inputs; };
       backupFileExtension = "backup";
       users = {
-        "roshan" = import ./home.nix;
+        "roshan" = import ./roshan.nix;
+        "guest" = import ./guest.nix;
       };
     };
 
