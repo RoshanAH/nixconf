@@ -23,6 +23,8 @@
           bashls.enable = true; # Bash
           clangd.enable = true; # C/C++
           yamlls.enable = true; # YAML
+          gopls.enable = true; # Go
+          java_language_server.enable = true; # Java
           asm_lsp = {
             enable = true; # assembly
             package = inputs.asm-lsp.packages.${pkgs.system}.default;
