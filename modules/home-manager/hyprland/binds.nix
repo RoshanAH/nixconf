@@ -24,11 +24,12 @@
 
     bind = [
       "ALTSHIFT,c,killactive"
-
       "ALT,space,fullscreen,"
       "ALTSHIFT,space,fullscreenstate,-1 2"
       "ALT,u,togglefloating"
+      "ALT,p,pin"
       "ALT,tab,layoutmsg,swapsplit"
+      "ALT,s,exec,sleep 1 && hyprctl dispatch dpms toggle"
       "ALTSHIFT,tab,layoutmsg,togglesplit"
     ] ++
     # Change workspace

@@ -35,6 +35,9 @@
         "prismlauncher.cachix.org-1:9/n/FGyABA2jLUVfY+DEp4hKds/rwO+SCOtbOkDzd+c="
       ];
     };
+    extraOptions = ''
+      trusted-users = root roshan
+    '';
   };
 
   environment.etc =
@@ -228,7 +231,7 @@
   programs.nh = {
     enable = true;
     clean.enable = true;
-    clean.extraArgs = "--kep-since 4d --keep 3";
+    clean.extraArgs = "--keep-since 10d --keep 5";
     flake = "/home/roshan/nixconf";
   };
   programs.command-not-found.enable = false;
@@ -245,6 +248,8 @@
       brightnessctl
       polychromatic
       openrazer-daemon
+      tree
+      devenv
     ])
     ++ [
       inputs.dash.packages.${pkgs.stdenv.hostPlatform.system}.default
