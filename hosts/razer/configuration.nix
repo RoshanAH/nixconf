@@ -29,6 +29,11 @@
         "https://cache.garnix.io"
         "https://prismlauncher.cachix.org"
       ];
+      trusted-substituters = [
+        "https://hyprland.cachix.org"
+        "https://cache.garnix.io"
+        "https://prismlauncher.cachix.org"
+      ];
       trusted-public-keys = [
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
@@ -118,28 +123,30 @@
 
   # Nvidia stuff
 
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware = {
-  #   graphics.enable = true;
-  #
-    # nvidia = {
-    #   modesetting.enable = true;
-  #     powerManagement.enable = false;
-  #     powerManagement.finegrained = false;
-      # open = false;
-  #     nvidiaSettings = true;
-      # package = config.boot.kernelPackages.nvidiaPackages.beta;
-  #     prime = {
-  #       offload = {
-  #         enable = true;
-  #         enableOffloadCmd = true;
-  #       };
-  #       # sync.enable = true;
-  #       nvidiaBusId = "PCI:1:0:0";
-  #       amdgpuBusId = "PCI:4:0:0";
-  #     };
-    # };
-  # };
+  services.xserver.videoDrivers = [ "nvidia" ];
+  services.logind.lidSwitchExternalPower = "ignore";
+
+  hardware = {
+    graphics.enable = true;
+
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      powerManagement.finegrained = false;
+      open = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      prime = {
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+        # sync.enable = true;
+        nvidiaBusId = "PCI:1:0:0";
+        amdgpuBusId = "PCI:4:0:0";
+      };
+    };
+  };
 
   hardware.keyboard.qmk.enable = true;
 
@@ -224,6 +231,7 @@
   programs.git.enable = true;
   programs.hyprland = {
     enable = true;
+    withUWSM  = true;
     xwayland.enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
@@ -236,24 +244,34 @@
   };
   programs.command-not-found.enable = false;
 
-  environment.systemPackages =
-    (with pkgs; [
-      vim
-      wget
-      neofetch
-      unzip
-      sl
-      obs-studio
-      pamixer
-      brightnessctl
-      polychromatic
-      openrazer-daemon
-      tree
-      devenv
-    ])
-    ++ [
-      inputs.dash.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
+  environment.systemPackages = with pkgs; [
+
+    vim
+    wget
+    neofetch
+    unzip
+    sl
+    obs-studio
+    pamixer
+    brightnessctl
+    polychromatic
+    openrazer-daemon
+    tree
+    devenv
+    jq
+    # Nvidia packages
+    libva-utils
+    vdpauinfo
+    vulkan-tools
+    vulkan-validation-layers
+    libvdpau-va-gl
+    egl-wayland
+    wgpu-utils
+    mesa
+    libglvnd
+    nvitop
+    libGL
+  ];
 
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;

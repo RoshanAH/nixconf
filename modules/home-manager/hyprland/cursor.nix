@@ -1,4 +1,4 @@
-{ pkgs, ... }: let 
+{ pkgs, lib, ... }: let 
     size = "32";
 in {
     home.file = let
@@ -21,6 +21,7 @@ in {
 
     stylix.cursor = {
         package = pkgs.bibata-cursors;
+        size = lib.toInt size;
         name = "Bibata-Modern-Ice";
     };
 

@@ -98,12 +98,11 @@
         };
 
         loginShellInit = /* fish */ ''
-            echo "auto launch script from fish.nix"
-            if test (tty) = "/dev/tty1"
-                Hyprland
-            else 
-                echo "not using tty1 so not launching hyprland"
+          if not set -q TMUX
+            if uwsm check may-start
+              exec uwsm start hyprland-uwsm.desktop
             end
+          end        
         '';
 
 

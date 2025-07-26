@@ -31,10 +31,10 @@
         settings = {
           view_method = "zathura";
         };
-        texlivePackage = pkgs.texlive.withPackages (ps:
-          with ps; [
-            scheme-full
-          ]);
+        # texlivePackage = pkgs.texlive.withPackages (ps:
+        #   with ps; [
+        #     scheme-full
+        #   ]);
       };
 
       molten = {

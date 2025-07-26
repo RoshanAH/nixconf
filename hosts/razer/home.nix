@@ -46,10 +46,12 @@
     musescore
     ffmpeg
     python3
-    osu-lazer
-  ]) ++ [
-    inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
-  ];
+    prismlauncher
+    btop
+  ]);
+  # ]) ++ [
+    # inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
+  # ];
 
   repo-find = {
     enable = true;

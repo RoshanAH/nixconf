@@ -8,9 +8,6 @@
     ./binds.nix
     ./cursor.nix
   ];
-  xdg.portal = {
-    extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
-  };
 
   home.packages =
     (with pkgs; [
@@ -36,13 +33,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    systemd = {
-      enable = true;
-      extraCommands = lib.mkBefore [
-        "systemctl --user stop graphical-session.target"
-        "systemctl --user start hyprland-session.target"
-      ];
-    };
+    systemd.enable = false;
     settings =
       let
         terminal = "${pkgs.kitty}/bin/kitty";
@@ -50,7 +41,7 @@
         browser =
           let
             pkg = config.programs.firefox.package;
-            name = "firefox-nightly";
+            name = "firefox";
           in
           "${pkg}/bin/${name}";
         brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
@@ -60,10 +51,17 @@
         inactive = "rgba(${config.stylix.base16Scheme.base00}ff)";
       in
       {
+
+        env = [
+          "LIBVA_DRIVER_NAME,nvidia"
+          "GLX_VENDOR_LIBRARY_NAME,nvidia"
+          "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        ];
+
         exec-once = [
           "hyprpaper"
         ];
-        monitor = [ "eDP-1,1920x1080@144,0x0,1" "desc:TTG GM-GFT-27FTQB 0000000000001,1920x1080@144.00,auto,1" ", preferred,auto,1, mirror, eDP-1" ];
+        monitor = [ "eDP-1,1920x1080@144,0x0,1" "desc:TTG GM-GFT-27FTQB 0000000000001,1920x1080@144.00,auto,1" ",preferred,auto,1" ];
         general = {
           gaps_in = 5;
           gaps_out = 10;
@@ -118,8 +116,7 @@
           disable_splash_rendering = true;
           close_special_on_empty = true;
           focus_on_activate = true;
-          render_ahead_of_time = false;
-          initial_workspace_tracking = 1;
+          initial_workspace_tracking = 1; # dont set to 2
           # Unfullscreen when opening something
           new_window_takes_over_fullscreen = 2;
         };

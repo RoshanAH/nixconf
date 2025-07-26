@@ -3,7 +3,7 @@
 , ...
 }: {
   programs.nixvim = {
-    diagnostics = {
+    diagnostic.settings = {
       virtual_text = false;
     };
 
@@ -25,10 +25,9 @@
           yamlls.enable = true; # YAML
           gopls.enable = true; # Go
           java_language_server.enable = true; # Java
-          asm_lsp = {
-            enable = true; # assembly
-            package = inputs.asm-lsp.packages.${pkgs.system}.default;
-          };
+          # asm_lsp = {
+          #   enable = true; # assembly
+          # };
           hls = {
             # haskell
             enable = true;
