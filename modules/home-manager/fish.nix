@@ -97,12 +97,15 @@
             '';
         };
 
-        loginShellInit = /* fish */ ''
+    loginShellInit = let
+      gpuSelect = pkgs.callPackage ../../hosts/razer/scripts/gpu-select.nix { };
+    in /* fish */ ''
           if not set -q TMUX
             if uwsm check may-start
+              ${gpuSelect}/bin/gpu-select
               exec uwsm start hyprland-uwsm.desktop
             end
-          end        
+          end 
         '';
 
 

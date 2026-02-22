@@ -26,20 +26,21 @@
 
 
 
+      # i dont like these anymore
 
-      { key = "{}";   action = "{}<esc>i"; mode = "i"; }
-      { key = "{}}";   action = "{}"; mode = "i"; }
-      { key = "()";   action = "()<esc>i"; mode = "i"; }
-      { key = "())";   action = "()"; mode = "i"; }
-      { key = "[]";   action = "[]<esc>i"; mode = "i"; }
-      { key = "[]]";   action = "[]"; mode = "i"; }
-      { key = "\"\""; action = "\"\"<esc>i"; mode = "i"; }
-      { key = "\"\"\""; action = "\"\""; mode = "i"; }
-      { key = "\'\'"; action = "\'\'<esc>i"; mode = "i"; }
-      { key = "\'\'\'"; action = "\'\'"; mode = "i"; }
-      { key = "{<cr>";  action = "{<cr>}<esc>==O"; mode = "i"; }
-      { key = "(<cr>";  action = "(<cr>)<esc>==O"; mode = "i"; }
-      { key = "[<cr>";  action = "[<cr>]<esc>==O"; mode = "i"; }
+      # { key = "{}";   action = "{}<esc>i"; mode = "i"; }
+      # { key = "{}}";   action = "{}"; mode = "i"; }
+      # { key = "()";   action = "()<esc>i"; mode = "i"; }
+      # { key = "())";   action = "()"; mode = "i"; }
+      # { key = "[]";   action = "[]<esc>i"; mode = "i"; }
+      # { key = "[]]";   action = "[]"; mode = "i"; }
+      # { key = "\"\""; action = "\"\"<esc>i"; mode = "i"; }
+      # { key = "\"\"\""; action = "\"\""; mode = "i"; }
+      # { key = "\'\'"; action = "\'\'<esc>i"; mode = "i"; }
+      # { key = "\'\'\'"; action = "\'\'"; mode = "i"; }
+      # { key = "{<cr>";  action = "{<cr>}<esc>==O"; mode = "i"; }
+      # { key = "(<cr>";  action = "(<cr>)<esc>==O"; mode = "i"; }
+      # { key = "[<cr>";  action = "[<cr>]<esc>==O"; mode = "i"; }
 
       # telescope 
       {

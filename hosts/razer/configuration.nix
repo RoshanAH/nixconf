@@ -1,10 +1,12 @@
-{ inputs
-, lib
-, config
-, pkgs
-, options
-, ...
-}: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  options,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix
   ];
@@ -18,7 +20,9 @@
   };
 
   nix = {
-    registry = (lib.mapAttrs (_: flake: { inherit flake; })) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+    registry = (lib.mapAttrs (_: flake: { inherit flake; })) (
+      (lib.filterAttrs (_: lib.isType "flake")) inputs
+    );
     nixPath = [ "/etc/nix/path" ];
     settings = {
       experimental-features = "nix-command flakes";
@@ -46,12 +50,17 @@
   };
 
   environment.etc =
-    lib.mapAttrs'
-      (name: value: {
-        name = "nix/path/${name}";
-        value.source = value.flake;
-      })
-      config.nix.registry;
+    lib.mapAttrs' (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    }) config.nix.registry
+    // {
+      "libinput/local-overrides.quirks".text = ''
+        [Never Debounce]
+        MatchUdevType=mouse
+        ModelBouncingKeys=1
+      '';
+    };
 
   networking.hostName = "razer";
   networking.networkmanager.enable = true;
@@ -61,7 +70,7 @@
       grub = {
         enable = true;
         device = "nodev";
-        useOSProber = true;
+        useOSProber = false;
         timeoutStyle = "hidden";
         extraEntries = ''
           menuentry "Windows" {
@@ -71,55 +80,61 @@
           }
         '';
       };
+      # systemd-boot = {
+      #   enable = lib.mkForce false;
+      #   configurationLimit = 10;
+      # };
       efi.canTouchEfiVariables = true;
+      # timeout = 0;
       efi.efiSysMountPoint = "/boot/efi";
+      # efi.efiSysMountPoint = "/boot";
     };
     kernelParams = [ "button.lid_init_state=open" ];
   };
 
-
   # hack for when i just want things to be fhs compliant
   programs.nix-ld = {
     enable = true;
-    libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [
-      alsa-lib # electron
-      at-spi2-atk # electron
-      cairo # electron
-      cups # electron
-      dbus # electron
-      expat # electron
-      gdk-pixbuf # electron
-      glib # electron
-      gtk3 # electron
-      gtk4 # electron
-      nss # electron
-      nspr # electron
-      xorg.libX11 # electron
-      xorg.libxcb # electron
-      xorg.libXcomposite # electron
-      xorg.libXdamage # electron
-      xorg.libXext # electron
-      xorg.libXfixes # electron
-      xorg.libXrandr # electron
-      xorg.libxkbfile # electron
-      xorg.libxshmfence # electron
-      pango # electron
-      pciutils # electron
-      stdenv.cc.cc # electron
-      systemd # electron
-      libnotify # electron
-      pipewire # electron
-      libsecret # electron
-      libpulseaudio # electron
-      speechd-minimal # electron
-      libdrm # electron
-      mesa # electron
-      libxkbcommon # electron
-      libGL # electron
-      vulkan-loader # electron
-    ]);
+    libraries =
+      options.programs.nix-ld.libraries.default
+      ++ (with pkgs; [
+        alsa-lib # electron
+        at-spi2-atk # electron
+        cairo # electron
+        cups # electron
+        dbus # electron
+        expat # electron
+        gdk-pixbuf # electron
+        glib # electron
+        gtk3 # electron
+        gtk4 # electron
+        nss # electron
+        nspr # electron
+        xorg.libX11 # electron
+        xorg.libxcb # electron
+        xorg.libXcomposite # electron
+        xorg.libXdamage # electron
+        xorg.libXext # electron
+        xorg.libXfixes # electron
+        xorg.libXrandr # electron
+        xorg.libxkbfile # electron
+        xorg.libxshmfence # electron
+        pango # electron
+        pciutils # electron
+        stdenv.cc.cc # electron
+        systemd # electron
+        libnotify # electron
+        pipewire # electron
+        libsecret # electron
+        libpulseaudio # electron
+        speechd-minimal # electron
+        libdrm # electron
+        mesa # electron
+        libxkbcommon # electron
+        libGL # electron
+        vulkan-loader # electron
+      ]);
   };
-
 
   # Nvidia stuff
 
@@ -152,7 +167,7 @@
 
   hardware.openrazer = {
     enable = true;
-    users = ["roshan"];
+    users = [ "roshan" ];
   };
 
   stylix = {
@@ -213,6 +228,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  services.tlp.enable = true;
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -231,27 +247,26 @@
   programs.git.enable = true;
   programs.hyprland = {
     enable = true;
-    withUWSM  = true;
+    withUWSM = true;
     xwayland.enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
   programs.nh = {
     enable = true;
     clean.enable = true;
-    clean.extraArgs = "--keep-since 10d --keep 5";
+    clean.extraArgs = "--keep-since 21d --keep 5";
     flake = "/home/roshan/nixconf";
   };
   programs.command-not-found.enable = false;
 
   environment.systemPackages = with pkgs; [
-
     vim
     wget
     neofetch
     unzip
     sl
-    obs-studio
     pamixer
     brightnessctl
     polychromatic
@@ -259,6 +274,8 @@
     tree
     devenv
     jq
+    waywall
+    sbctl
     # Nvidia packages
     libva-utils
     vdpauinfo
@@ -273,17 +290,61 @@
     libGL
   ];
 
+  services.flatpak.enable = true;
+
+  programs.obs-studio = {
+    enable = true;
+
+    # optional Nvidia hardware acceleration
+    package = pkgs.obs-studio.override {
+      cudaSupport = true;
+    };
+
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-backgroundremoval
+      obs-pipewire-audio-capture
+      obs-vaapi # optional AMD hardware acceleration
+      obs-gstreamer
+      obs-vkcapture
+    ];
+  };
+
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;
   programs.gamemode.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
-  virtualisation.docker.enable = true;
+
+  # vm stuff
+
+  # programs.dconf.enable = true;
+  # programs.virt-manager.enable = true;
+  # virtualisation = {
+  #   docker.enable = true;
+  #   libvirtd = {
+  #     enable = true;
+  #     qemu = {
+  #       swtpm.enable = true;
+  #       ovmf.enable = true;
+  #       ovmf.packages = [ pkgs.OVMFFull.fd ];
+  #     };
+  #   };
+  #   # spiceUSBRedirection.enable = true;
+  # };
+  # services.spice-vdagentd.enable = true;
+  # users.groups.libvirtd.members = [ "roshan" ];
 
   users.users = {
     roshan = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "docker" "openrazer"];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "docker"
+        "openrazer"
+        "libvirtd"
+      ];
       shell = pkgs.fish;
     };
   };

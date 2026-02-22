@@ -25,8 +25,11 @@
         path = builtins.toString config.stylix.image;
       in
       {
-        preload = [ path ];
-        wallpaper = [ ",${path}" ];
+        wallpaper = {
+          monitor = "";
+          inherit path;
+          fit_mode = "cover";
+        };
         splash = false;
       };
   };
@@ -61,7 +64,14 @@
         exec-once = [
           "hyprpaper"
         ];
-        monitor = [ "eDP-1,1920x1080@144,0x0,1" "desc:TTG GM-GFT-27FTQB 0000000000001,1920x1080@144.00,auto,1" ",preferred,auto,1" ];
+        monitor = [ 
+          "eDP-1,1920x1080@144,0x0,1" 
+          "desc:TTG GM-GFT-27FTQB 0000000000001,2560x1440@144.00Hz,auto,1.33333" 
+          ",preferred,auto,1" 
+        ];
+        xwayland = {
+          force_zero_scaling = true;
+        };
         general = {
           gaps_in = 5;
           gaps_out = 10;
@@ -83,7 +93,7 @@
 
         device =
           let
-            sense = -0.870000;
+            sense = -0.40000;
             accel = "flat";
             viperNames = [ 
               "razer-razer-viper-v2-pro" 
@@ -117,8 +127,6 @@
           close_special_on_empty = true;
           focus_on_activate = true;
           initial_workspace_tracking = 1; # dont set to 2
-          # Unfullscreen when opening something
-          new_window_takes_over_fullscreen = 2;
         };
         decoration = {
           active_opacity = 1.0;
@@ -141,34 +149,13 @@
           "f[1], gapsout:0, gapsin:0"
         ];
 
-        windowrulev2 = [
-          "bordersize 0, floating:0, onworkspace:w[tv1]"
-          "rounding 0, floating:0, onworkspace:w[tv1]"
-          "bordersize 0, floating:0, onworkspace:f[1]"
-          "rounding 0, floating:0, onworkspace:f[1]"
+        windowrule = [
+          "border_size 0, rounding 0, match:float 0, match:workspace w[tv1]"
+          "border_size 0, rounding 0, match:float 0, match:workspace f[1]"
         ];
 
         animations = {
-          # enabled = true;
           enabled = false;
-          bezier = [
-            "snap,0.2,1,.5,1"
-            "fling,.4,-0.5,1,.8"
-            "push,.5,0,.5,1"
-          ];
-
-          animation = [
-            "windowsIn,1,3,snap,popin"
-            "windowsOut,1,3,push,slide"
-            "windowsMove,1,3,snap"
-            "workspaces,0,2,snap,slide"
-            "fadeIn,1,3,snap"
-            "fadeOut,1,3,snap"
-            "fadeSwitch,1,3,snap"
-            "fadeShadow,1,3,snap"
-            "fadeDim,1,3,snap"
-            "border,1,3,snap"
-          ];
         };
 
         # program binds
@@ -177,7 +164,7 @@
           "ALT,f,exec,${browser}"
           "ALT,d,exec,discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
           "ALT,s,exec,spotify"
-          "SUPER,s,exec,grimblast copy area"
+          "SUPER,s,exec,grimblast --freeze copy area"
           ", F9, pass, ^(com\.obsproject\.Studio)$" # obs replay buffer
         ];
         binde = [

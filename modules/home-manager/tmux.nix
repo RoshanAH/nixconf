@@ -84,8 +84,7 @@
                   set -g @gruvbox_status_connect_separator "no"
 
                   bind v run-shell 'tmux capture-pane -S -1000 -p > /tmp/tmux-buffer-$$.txt && \
-    tmux new-window -n "vim-buffer" "vim + /tmp/tmux-buffer-$$.txt; rm /tmp/tmux-buffer-$$.txt; tmux kill-window"'
-
+                  tmux new-window -n "vim-buffer" "nvim + /tmp/tmux-buffer-$$.txt; rm /tmp/tmux-buffer-$$.txt; tmux kill-window"'
 
           '';
         }

@@ -37,8 +37,9 @@
 
     nixvim = {
         url = "github:nix-community/nixvim";
-        inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    riscv-toolchain.url = "github:RoshanAH/riscv-qemu-toolchain";
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };

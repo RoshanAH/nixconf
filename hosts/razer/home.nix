@@ -19,8 +19,8 @@
         "scripts/repo-find"
       ];
     in
-      (map (module: ../../modules/home-manager + "/${module}") home-manager) ++
-    [./mcsr];
+      (map (module: ../../modules/home-manager + "/${module}") home-manager); # ++
+    # [./mcsr];
 
   nixpkgs = {
     overlays = [ ];
@@ -53,6 +53,35 @@
     # inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
   # ];
 
+  xdg = {
+    enable = true;
+    autostart.enable = true;
+    portal = {
+      enable = true;
+      # extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
+      config.common.default = [ "*" ];
+      xdgOpenUsePortal = true;
+    };
+
+    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
+        "x-scheme-handler/about" = [ "firefox.desktop" ];
+        "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+        "text/html" = [ "firefox.desktop" ];
+        "application/pdf" = [ "zathura.desktop" "firefox.desktop" ];
+      };
+    };
+
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+    };
+  };
+
   repo-find = {
     enable = true;
     fishBindings = [
@@ -79,6 +108,7 @@
   };
 
   programs = {
+    zathura.enable = true;
     zsh.enable = true;
     command-not-found.enable = false;
     direnv = {

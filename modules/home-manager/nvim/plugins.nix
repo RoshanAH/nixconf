@@ -1,10 +1,10 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.nixvim = {
     plugins = {
       nix.enable = true;
       ts-autotag.enable = true;
       transparent.enable = true;
-      # nvim-autopairs.enable = true;
       luasnip.enable = true;
 
       telescope = {
@@ -31,25 +31,11 @@
         settings = {
           view_method = "zathura";
         };
-        # texlivePackage = pkgs.texlive.withPackages (ps:
-        #   with ps; [
-        #     scheme-full
-        #   ]);
-      };
-
-      molten = {
-        enable = true;
-        python3Dependencies = p:
-          with p; [
-            pynvim
-            jupyter-client
-            cairosvg
-            pnglatex
-            plotly
-            pyperclip
-            ipython
-            nbformat
-          ];
+        texlivePackage = pkgs.texlive.withPackages (
+          ps: with ps; [
+            scheme-full
+          ]
+        );
       };
 
       fugitive = {
@@ -89,9 +75,12 @@
           };
           sections = {
             lualine_a = [ "mode" ];
-            lualine_b = [ "branch" "diagnostics" ];
+            lualine_b = [
+              "branch"
+              "diagnostics"
+            ];
             lualine_c = [ "filename" ];
-            lualine_x = [ "" ] ;
+            lualine_x = [ "" ];
             lualine_y = [ "progress" ];
             lualine_z = [ "location" ];
           };
@@ -137,15 +126,54 @@
           routes = [
             {
               view = "notify";
-              filter = { event = "msg_showmode"; };
+              filter = {
+                event = "msg_showmode";
+              };
             }
           ];
         };
       };
     };
-    # extraPackages = with pkgs; [
-    #   texlivePackages.framed
-    #   texliveMedium
-    # ];
+
+    image = {
+      enable = true;
+      settings = {
+        backend = "kitty";
+        max_width = 100;
+        max_height = 12;
+        max_height_window_percentage.__raw = "math.huge";
+        max_width_window_percentage.__raw = "math.huge";
+        window_overlap_clear_enabled = true;
+        window_overlap_clear_ft_ignore = [
+          "cmp_menu"
+          "cmp_docs"
+          ""
+        ];
+      };
+    };
+
+    neorg = {
+      enable = true;
+      settings = {
+        load = {
+          "core.defaults".__empty = null;
+          "core.dirman" = {
+            config = {
+              workspaces = {
+                home = "~/repos/notes";
+              };
+              index = "index.norg";
+              default_workspace = "home";
+            };
+          };
+          "core.concealer".config = {
+            icon_preset = "varied";
+          };
+          "core.latex.renderer".config = {
+            render_on_enter = true;
+          };
+        };
+      };
+    };
   };
 }
