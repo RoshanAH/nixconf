@@ -1,5 +1,6 @@
 {
   inputs,
+  outputs,
   lib,
   config,
   pkgs,
@@ -69,6 +70,7 @@
     loader = {
       grub = {
         enable = true;
+        efiSupport = true;
         device = "nodev";
         useOSProber = false;
         timeoutStyle = "hidden";
@@ -80,14 +82,13 @@
           }
         '';
       };
-      # systemd-boot = {
-      #   enable = lib.mkForce false;
-      #   configurationLimit = 10;
-      # };
+      systemd-boot = {
+        enable = false;
+        configurationLimit = 10;
+      };
       efi.canTouchEfiVariables = true;
       # timeout = 0;
-      efi.efiSysMountPoint = "/boot/efi";
-      # efi.efiSysMountPoint = "/boot";
+      efi.efiSysMountPoint = "/boot";
     };
     kernelParams = [ "button.lid_init_state=open" ];
   };
@@ -136,19 +137,20 @@
       ]);
   };
 
+  services.razer-laptop-control.enable = true;
+
   # Nvidia stuff
 
-  services.xserver.videoDrivers = [ "nvidia" ];
   services.logind.lidSwitchExternalPower = "ignore";
-
+  services.xserver.videoDrivers = [ "nvidia" ];
+  nixpkgs.config.nvidia.acceptLicense = true;
   hardware = {
     graphics.enable = true;
-
     nvidia = {
       modesetting.enable = true;
       powerManagement.enable = true;
       powerManagement.finegrained = false;
-      open = false;
+      open = true;
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.beta;
       prime = {
@@ -228,7 +230,22 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-  services.tlp.enable = true;
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 20;
+    };
+  };
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -350,7 +367,7 @@
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs outputs; };
     backupFileExtension = "backup";
     users = {
       "roshan" = import ./home.nix;

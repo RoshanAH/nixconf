@@ -76,6 +76,7 @@
     fi
 
     echo "export AQ_DRM_DEVICES=\"$drm_devices\"" > "$CONFIG_FILE"
+    echo "export WLR_DRM_DEVICES=\"$drm_devices\"" >> "$CONFIG_FILE"
 
     echo "Configuration written to: $CONFIG_FILE"
     echo "AQ_DRM_DEVICES=$drm_devices"

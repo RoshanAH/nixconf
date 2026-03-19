@@ -39,6 +39,11 @@
         url = "github:nix-community/nixvim";
     };
 
+    razerdaemon = {
+      url = "github:encomjp/razer-control-revived";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     riscv-toolchain.url = "github:RoshanAH/riscv-qemu-toolchain";
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
@@ -66,6 +71,7 @@
             inputs.nixvim.nixosModules.nixvim
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
+            inputs.razerdaemon.nixosModules.default
         ];
       };
       alienware = nixpkgs.lib.nixosSystem {

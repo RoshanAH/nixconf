@@ -331,6 +331,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_5"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "fromYaml": {
       "flake": false,
       "locked": {
@@ -1074,6 +1092,27 @@
         "type": "github"
       }
     },
+    "razerdaemon": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771739334,
+        "narHash": "sha256-3QBhxucrM46Ah0SFC9kkdiqlz0OpXCBfDX1Yd8Q47cc=",
+        "owner": "encomjp",
+        "repo": "razer-control-revived",
+        "rev": "ba4a52cea5ed490f2549e0cb342958932843bdbb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "encomjp",
+        "repo": "razer-control-revived",
+        "type": "github"
+      }
+    },
     "riscv-toolchain": {
       "inputs": {
         "flake-parts": "flake-parts_4",
@@ -1106,6 +1145,7 @@
         "nixpkgs": "nixpkgs_3",
         "nixvim": "nixvim",
         "prismlauncher": "prismlauncher",
+        "razerdaemon": "razerdaemon",
         "riscv-toolchain": "riscv-toolchain",
         "stylix": "stylix"
       }
@@ -1148,7 +1188,7 @@
         "gnome-shell": "gnome-shell",
         "nixpkgs": "nixpkgs_7",
         "nur": "nur",
-        "systems": "systems_5",
+        "systems": "systems_6",
         "tinted-foot": "tinted-foot",
         "tinted-kitty": "tinted-kitty",
         "tinted-schemes": "tinted-schemes",
@@ -1230,6 +1270,21 @@
       }
     },
     "systems_5": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_6": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

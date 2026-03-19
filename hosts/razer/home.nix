@@ -1,6 +1,7 @@
 # This is your home-manager configuration filehome
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 { inputs
+, outputs
 , lib
 , config
 , pkgs
@@ -38,6 +39,8 @@
     homeDirectory = "/home/roshan";
   };
 
+  home.file.".local/waywall-glfw".source = outputs.packages.x86_64-linux.waywall-glfw;
+
   home.packages = (with pkgs; [
     discord
     fzf
@@ -58,7 +61,7 @@
     autostart.enable = true;
     portal = {
       enable = true;
-      # extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       config.common.default = [ "*" ];
       xdgOpenUsePortal = true;
     };
@@ -72,7 +75,7 @@
         "x-scheme-handler/about" = [ "firefox.desktop" ];
         "x-scheme-handler/unknown" = [ "firefox.desktop" ];
         "text/html" = [ "firefox.desktop" ];
-        "application/pdf" = [ "zathura.desktop" "firefox.desktop" ];
+        "application/pdf" = [ "org.pwmt.zathura.desktop" "firefox.desktop" ];
       };
     };
 
