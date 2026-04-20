@@ -1,10 +1,13 @@
-{ inputs
-, lib
-, config
-, pkgs
-, options
-, ...
-}: {
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  options,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix
   ];
@@ -18,13 +21,20 @@
   };
 
   nix = {
-    registry = (lib.mapAttrs (_: flake: { inherit flake; })) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+    registry = (lib.mapAttrs (_: flake: { inherit flake; })) (
+      (lib.filterAttrs (_: lib.isType "flake")) inputs
+    );
     nixPath = [ "/etc/nix/path" ];
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
 
       substituters = [
+        "https://hyprland.cachix.org"
+        "https://cache.garnix.io"
+        "https://prismlauncher.cachix.org"
+      ];
+      trusted-substituters = [
         "https://hyprland.cachix.org"
         "https://cache.garnix.io"
         "https://prismlauncher.cachix.org"
@@ -41,12 +51,17 @@
   };
 
   environment.etc =
-    lib.mapAttrs'
-      (name: value: {
-        name = "nix/path/${name}";
-        value.source = value.flake;
-      })
-      config.nix.registry;
+    lib.mapAttrs' (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    }) config.nix.registry
+    // {
+      "libinput/local-overrides.quirks".text = ''
+        [Never Debounce]
+        MatchUdevType=mouse
+        ModelBouncingKeys=1
+      '';
+    };
 
   networking.hostName = "razer";
   networking.networkmanager.enable = true;
@@ -55,8 +70,9 @@
     loader = {
       grub = {
         enable = true;
+        efiSupport = true;
         device = "nodev";
-        useOSProber = true;
+        useOSProber = false;
         timeoutStyle = "hidden";
         extraEntries = ''
           menuentry "Windows" {
@@ -66,86 +82,94 @@
           }
         '';
       };
+      systemd-boot = {
+        enable = false;
+        configurationLimit = 10;
+      };
       efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot/efi";
+      # timeout = 0;
+      efi.efiSysMountPoint = "/boot";
     };
     kernelParams = [ "button.lid_init_state=open" ];
   };
 
-
   # hack for when i just want things to be fhs compliant
   programs.nix-ld = {
     enable = true;
-    libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [
-      alsa-lib # electron
-      at-spi2-atk # electron
-      cairo # electron
-      cups # electron
-      dbus # electron
-      expat # electron
-      gdk-pixbuf # electron
-      glib # electron
-      gtk3 # electron
-      gtk4 # electron
-      nss # electron
-      nspr # electron
-      xorg.libX11 # electron
-      xorg.libxcb # electron
-      xorg.libXcomposite # electron
-      xorg.libXdamage # electron
-      xorg.libXext # electron
-      xorg.libXfixes # electron
-      xorg.libXrandr # electron
-      xorg.libxkbfile # electron
-      xorg.libxshmfence # electron
-      pango # electron
-      pciutils # electron
-      stdenv.cc.cc # electron
-      systemd # electron
-      libnotify # electron
-      pipewire # electron
-      libsecret # electron
-      libpulseaudio # electron
-      speechd-minimal # electron
-      libdrm # electron
-      mesa # electron
-      libxkbcommon # electron
-      libGL # electron
-      vulkan-loader # electron
-    ]);
+    libraries =
+      options.programs.nix-ld.libraries.default
+      ++ (with pkgs; [
+        alsa-lib # electron
+        at-spi2-atk # electron
+        cairo # electron
+        cups # electron
+        dbus # electron
+        expat # electron
+        gdk-pixbuf # electron
+        glib # electron
+        gtk3 # electron
+        gtk4 # electron
+        nss # electron
+        nspr # electron
+        xorg.libX11 # electron
+        xorg.libxcb # electron
+        xorg.libXcomposite # electron
+        xorg.libXdamage # electron
+        xorg.libXext # electron
+        xorg.libXfixes # electron
+        xorg.libXrandr # electron
+        xorg.libxkbfile # electron
+        xorg.libxshmfence # electron
+        pango # electron
+        pciutils # electron
+        stdenv.cc.cc # electron
+        systemd # electron
+        libnotify # electron
+        pipewire # electron
+        libsecret # electron
+        libpulseaudio # electron
+        speechd-minimal # electron
+        libdrm # electron
+        mesa # electron
+        libxkbcommon # electron
+        libGL # electron
+        vulkan-loader # electron
+      ]);
   };
 
+  services.razer-laptop-control.enable = true;
 
   # Nvidia stuff
 
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware = {
-  #   graphics.enable = true;
-  #
-    # nvidia = {
-    #   modesetting.enable = true;
-  #     powerManagement.enable = false;
-  #     powerManagement.finegrained = false;
-      # open = false;
-  #     nvidiaSettings = true;
-      # package = config.boot.kernelPackages.nvidiaPackages.beta;
-  #     prime = {
-  #       offload = {
-  #         enable = true;
-  #         enableOffloadCmd = true;
-  #       };
-  #       # sync.enable = true;
-  #       nvidiaBusId = "PCI:1:0:0";
-  #       amdgpuBusId = "PCI:4:0:0";
-  #     };
-    # };
-  # };
+  services.logind.lidSwitchExternalPower = "ignore";
+  services.xserver.videoDrivers = [ "nvidia" ];
+  nixpkgs.config.nvidia.acceptLicense = true;
+  hardware = {
+    graphics.enable = true;
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      powerManagement.finegrained = false;
+      open = true;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      prime = {
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+        # sync.enable = true;
+        nvidiaBusId = "PCI:1:0:0";
+        amdgpuBusId = "PCI:4:0:0";
+      };
+    };
+  };
 
   hardware.keyboard.qmk.enable = true;
 
   hardware.openrazer = {
     enable = true;
-    users = ["roshan"];
+    users = [ "roshan" ];
   };
 
   stylix = {
@@ -207,6 +231,22 @@
     pulse.enable = true;
   };
 
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 20;
+    };
+  };
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
@@ -224,54 +264,110 @@
   programs.git.enable = true;
   programs.hyprland = {
     enable = true;
+    withUWSM = true;
     xwayland.enable = true;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    portalPackage =
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
   programs.nh = {
     enable = true;
     clean.enable = true;
-    clean.extraArgs = "--keep-since 10d --keep 5";
+    clean.extraArgs = "--keep-since 21d --keep 5";
     flake = "/home/roshan/nixconf";
   };
   programs.command-not-found.enable = false;
 
-  environment.systemPackages =
-    (with pkgs; [
-      vim
-      wget
-      neofetch
-      unzip
-      sl
-      obs-studio
-      pamixer
-      brightnessctl
-      polychromatic
-      openrazer-daemon
-      tree
-      devenv
-    ])
-    ++ [
-      inputs.dash.packages.${pkgs.stdenv.hostPlatform.system}.default
+  environment.systemPackages = with pkgs; [
+    vim
+    wget
+    neofetch
+    unzip
+    sl
+    pamixer
+    brightnessctl
+    polychromatic
+    openrazer-daemon
+    tree
+    devenv
+    jq
+    waywall
+    sbctl
+    # Nvidia packages
+    libva-utils
+    vdpauinfo
+    vulkan-tools
+    vulkan-validation-layers
+    libvdpau-va-gl
+    egl-wayland
+    wgpu-utils
+    mesa
+    libglvnd
+    nvitop
+    libGL
+  ];
+
+  services.flatpak.enable = true;
+
+  programs.obs-studio = {
+    enable = true;
+
+    # optional Nvidia hardware acceleration
+    package = pkgs.obs-studio.override {
+      cudaSupport = true;
+    };
+
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-backgroundremoval
+      obs-pipewire-audio-capture
+      obs-vaapi # optional AMD hardware acceleration
+      obs-gstreamer
+      obs-vkcapture
     ];
+  };
 
   programs.steam.enable = true;
   programs.steam.gamescopeSession.enable = true;
   programs.gamemode.enable = true;
 
   security.sudo.wheelNeedsPassword = false;
-  virtualisation.docker.enable = true;
+
+  # vm stuff
+
+  # programs.dconf.enable = true;
+  # programs.virt-manager.enable = true;
+  # virtualisation = {
+  #   docker.enable = true;
+  #   libvirtd = {
+  #     enable = true;
+  #     qemu = {
+  #       swtpm.enable = true;
+  #       ovmf.enable = true;
+  #       ovmf.packages = [ pkgs.OVMFFull.fd ];
+  #     };
+  #   };
+  #   # spiceUSBRedirection.enable = true;
+  # };
+  # services.spice-vdagentd.enable = true;
+  # users.groups.libvirtd.members = [ "roshan" ];
 
   users.users = {
     roshan = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "docker" "openrazer"];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "docker"
+        "openrazer"
+        "libvirtd"
+      ];
       shell = pkgs.fish;
     };
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs outputs; };
     backupFileExtension = "backup";
     users = {
       "roshan" = import ./home.nix;

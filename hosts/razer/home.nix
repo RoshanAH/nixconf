@@ -1,6 +1,7 @@
 # This is your home-manager configuration filehome
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 { inputs
+, outputs
 , lib
 , config
 , pkgs
@@ -19,8 +20,8 @@
         "scripts/repo-find"
       ];
     in
-      (map (module: ../../modules/home-manager + "/${module}") home-manager) ++
-    [./mcsr];
+      (map (module: ../../modules/home-manager + "/${module}") home-manager); # ++
+    # [./mcsr];
 
   nixpkgs = {
     overlays = [ ];
@@ -38,6 +39,8 @@
     homeDirectory = "/home/roshan";
   };
 
+  home.file.".local/waywall-glfw".source = outputs.packages.x86_64-linux.waywall-glfw;
+
   home.packages = (with pkgs; [
     discord
     fzf
@@ -46,10 +49,41 @@
     musescore
     ffmpeg
     python3
-    osu-lazer
-  ]) ++ [
-    inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
-  ];
+    prismlauncher
+    btop
+  ]);
+  # ]) ++ [
+    # inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
+  # ];
+
+  xdg = {
+    enable = true;
+    autostart.enable = true;
+    portal = {
+      enable = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      config.common.default = [ "*" ];
+      xdgOpenUsePortal = true;
+    };
+
+    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
+        "x-scheme-handler/about" = [ "firefox.desktop" ];
+        "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+        "text/html" = [ "firefox.desktop" ];
+        "application/pdf" = [ "org.pwmt.zathura.desktop" "firefox.desktop" ];
+      };
+    };
+
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+    };
+  };
 
   repo-find = {
     enable = true;
@@ -77,6 +111,7 @@
   };
 
   programs = {
+    zathura.enable = true;
     zsh.enable = true;
     command-not-found.enable = false;
     direnv = {

@@ -35,17 +35,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    firefox = {
-        url = "github:nix-community/flake-firefox-nightly";
-    };
     nixvim = {
         url = "github:nix-community/nixvim";
-        inputs.nixpkgs.follows = "nixpkgs";
     };
-    asm-lsp = {
-        url = "github:roshanah/asm-lsp-flake";
-        inputs.nixpkgs.follows = "nixpkgs";
+
+    razerdaemon = {
+      url = "github:encomjp/razer-control-revived";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    riscv-toolchain.url = "github:RoshanAH/riscv-qemu-toolchain";
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
@@ -72,6 +71,7 @@
             inputs.nixvim.nixosModules.nixvim
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
+            inputs.razerdaemon.nixosModules.default
         ];
       };
       alienware = nixpkgs.lib.nixosSystem {

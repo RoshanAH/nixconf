@@ -29,7 +29,7 @@
       "ALT,u,togglefloating"
       "ALT,p,pin"
       "ALT,tab,layoutmsg,swapsplit"
-      "ALT,s,exec,sleep 1 && hyprctl dispatch dpms toggle"
+      "ALT,s,exec,sleep 0.2 && hyprctl dispatch dpms toggle"
       "ALTSHIFT,tab,layoutmsg,togglesplit"
     ] ++
     # Change workspace
