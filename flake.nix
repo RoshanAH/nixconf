@@ -74,6 +74,16 @@
             inputs.razerdaemon.nixosModules.default
         ];
       };
+      juno = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs flakeRoot;};
+        modules = [
+            ./hosts/juno/configuration.nix
+            inputs.nix-index-database.nixosModules.nix-index
+            inputs.nixvim.nixosModules.nixvim
+            inputs.home-manager.nixosModules.default
+            inputs.stylix.nixosModules.stylix
+        ];
+      };
       alienware = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs flakeRoot;};
         modules = [
