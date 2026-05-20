@@ -8,25 +8,23 @@
 , ...
 }: {
   imports =
-    let
-      home-manager = [
-        "hyprland"
-        "nvim"
-        "kitty"
-        "fish.nix"
-        "firefox.nix"
-        "tmux.nix"
-        "scripts/repo-find"
-      ];
-    in
-      (map (module: ../../modules/home-manager + "/${module}") home-manager); # ++
-    # [./mcsr];
+    [
+      ../../modules/home/hyprland
+      ../../modules/home/nvim
+      ../../modules/home/kitty
+      ../../modules/home/fish.nix
+      ../../modules/home/firefox.nix
+      ../../modules/home/tmux.nix
+      ../../modules/home/gpg.nix
+      ../../modules/home/pass.nix
+      ../../modules/home/scripts/repo-find
+    ];
+
+  my.gpg.graphical = true;
 
   nixpkgs = {
     overlays = [ ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
@@ -38,6 +36,8 @@
     homeDirectory = "/home/roshan";
   };
 
+  home.file.".ssh/id_yubikey.pub".source = ../../keys/ssh.pub;
+
   home.packages = (with pkgs; [
     discord
     fzf
@@ -48,9 +48,6 @@
     prismlauncher
     btop
   ]);
-  # ]) ++ [
-    # inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
-  # ];
 
   xdg = {
     enable = true;
@@ -120,7 +117,7 @@
       userName = "roshan";
       userEmail = "roshanahegde@gmail.com";
       extraConfig = {
-        credential.helper = "store";
+        credential.helper = "${lib.getExe pkgs.pass-git-helper}";
         init.defaultBranch = "main";
         pull.rebase = false;
       };
