@@ -14,6 +14,11 @@
     export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
   '';
 
+  environment.interactiveShellInit = ''
+    export GPG_TTY=$(tty)
+    gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
+  '';
+
   services.udev.packages = with pkgs; [
     yubikey-personalization
   ];

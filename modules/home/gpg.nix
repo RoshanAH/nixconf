@@ -25,6 +25,8 @@ in
       pinentry.package = if cfg.graphical then pkgs.pinentry-gnome3 else pkgs.pinentry-tty;
     };
 
+    home.packages = lib.optional cfg.graphical pkgs.gcr;
+
     programs =
       let
         fixGpg = /* bash */ ''
@@ -35,7 +37,6 @@ in
         bash.profileExtra = fixGpg;
         fish.loginShellInit = fixGpg;
         zsh.loginExtra = fixGpg;
-        nushell.extraLogin = fixGpg;
         gpg = {
           enable = true;
           settings = {
