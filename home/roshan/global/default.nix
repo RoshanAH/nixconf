@@ -6,8 +6,6 @@
   config,
   ...
 }: {
-  imports = builtins.attrValues outputs.homeModules;
-
   home = {
     username = "roshan";
     homeDirectory = "/home/roshan";

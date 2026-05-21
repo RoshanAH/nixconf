@@ -3,24 +3,22 @@
   outputs,
   ...
 }: {
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-      inputs.nix-index-database.nixosModules.nix-index
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.nix-index-database.nixosModules.nix-index
 
-      ./nix.nix
-      ./locale.nix
-      ./sops.nix
-      ./openssh.nix
-      ./fish.nix
-      ./zsh.nix
-      ./nh.nix
-      ./command-not-found.nix
-      ./libinput.nix
-      ./passwordless-sudo.nix
-      ./base-packages.nix
-    ]
-    ++ (builtins.attrValues outputs.nixosModules);
+    ./nix.nix
+    ./locale.nix
+    ./sops.nix
+    ./openssh.nix
+    ./fish.nix
+    ./zsh.nix
+    ./nh.nix
+    ./command-not-found.nix
+    ./libinput.nix
+    ./passwordless-sudo.nix
+    ./base-packages.nix
+  ];
 
   home-manager = {
     useGlobalPkgs = true;
