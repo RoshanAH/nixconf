@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/nixos/openssh.nix
     inputs.nix-minecraft.nixosModules.minecraft-servers
     inputs.mm-api.nixosModules.default
   ];
@@ -44,36 +45,16 @@
     ];
   };
 
-  services.mm-api = {
-    enable = true;
-    domain = "api.mechmania.org";
-    jwtSecret = "aakjghalksjdfhalsuigyaelkjalkuaeg";
-    host = "0.0.0.0";
-    port = 8080;
-  };
-
   networking = {
     hostName = "alienware";
     networkmanager.enable = true;
     firewall.allowedUDPPortRanges = [
-      {
-        from = 24454;
-        to = 24455;
-      }
+      # TODO move this to a module
+      # {
+      #   from = 24454;
+      #   to = 24455;
+      # }
     ];
-  };
-
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = true;
-      PubkeyAuthentication = true;
-    };
-    extraConfig = ''
-      Match User roshan
-         PasswordAuthentication no
-         KbdInteractiveAuthentication no
-    '';
   };
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -89,12 +70,16 @@
       functions.enable = true;
     };
   };
+
+
   programs.nh = {
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/roshan/nixconf";
   };
+
+
   programs.git.enable = true;
   programs.command-not-found.enable = false;
 
@@ -147,24 +132,24 @@
     #     files = collectFilesAt modpack "config";
     #   };
 
-    servers.real-vanilla =
-      let
-        modpack = pkgs.fetchPackwizModpack {
-          url = "https://raw.githubusercontent.com/RoshanAH/mc-packs/refs/heads/main/vanilla/pack.toml";
-          packHash = "sha256-w20kRvZRH54hjfXpt22XFrj7COceJiD1m9qJqLwN9ao=";
-        };
-        mcVersion = modpack.manifest.versions.minecraft;
-        fabricVersion = modpack.manifest.versions.fabric;
-        serverVersion = lib.replaceStrings [ "." ] [ "_" ] "fabric-${mcVersion}";
-      in
-      {
-        enable = true;
-        serverProperties.server-port = 25566;
-        package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = fabricVersion; };
-        symlinks = {
-          "mods" = "${modpack}/mods";
-        };
-      };
+    # servers.real-vanilla =
+    #   let
+    #     modpack = pkgs.fetchPackwizModpack {
+    #       url = "https://raw.githubusercontent.com/RoshanAH/mc-packs/refs/heads/main/vanilla/pack.toml";
+    #       packHash = "sha256-w20kRvZRH54hjfXpt22XFrj7COceJiD1m9qJqLwN9ao=";
+    #     };
+    #     mcVersion = modpack.manifest.versions.minecraft;
+    #     fabricVersion = modpack.manifest.versions.fabric;
+    #     serverVersion = lib.replaceStrings [ "." ] [ "_" ] "fabric-${mcVersion}";
+    #   in
+    #   {
+    #     enable = true;
+    #     serverProperties.server-port = 25566;
+    #     package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = fabricVersion; };
+    #     symlinks = {
+    #       "mods" = "${modpack}/mods";
+    #     };
+    #   };
 
     # servers.proxfarmer =
     #   let
@@ -225,35 +210,35 @@
     #     };
     #     files = collectFilesAt modpack "config";
     #   };
-    servers.vanilla =
-      let
-        modpack = pkgs.fetchPackwizModpack {
-          url = "https://raw.githubusercontent.com/RoshanAH/mc-packs/refs/heads/main/hotdog/pack.toml";
-          packHash = "sha256-gYG8aJATHPNn3lYx5+9x9CnEqnX+INT1sR28blLn4o0=";
-        };
-        mcVersion = modpack.manifest.versions.minecraft;
-        serverVersion = lib.replaceStrings [ "." ] [ "_" ] "fabric-${mcVersion}";
-
-        collectFilesAt =
-          let
-            mapListToAttrs = fn: fv: list:
-              lib.listToAttrs (map (x: lib.nameValuePair (fn x) (fv x)) list);
-          in
-          path: prefix:
-            mapListToAttrs (x: builtins.unsafeDiscardStringContext (lib.removePrefix "${path}/" x)) (lib.id) (
-              lib.filesystem.listFilesRecursive "${path}/${prefix}"
-            );
-      in
-      {
-        enable = true;
-        jvmOpts = [ "-Xms2048M" "-Xmx8192M" ];
-        package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = "0.18.1"; };
-        symlinks = {
-          "mods" = "${modpack}/mods";
-          "datapacks" = "${modpack}/datapacks";
-        };
-        files = collectFilesAt modpack "config";
-      };
+    # servers.vanilla =
+    #   let
+    #     modpack = pkgs.fetchPackwizModpack {
+    #       url = "https://raw.githubusercontent.com/RoshanAH/mc-packs/refs/heads/main/hotdog/pack.toml";
+    #       packHash = "sha256-gYG8aJATHPNn3lYx5+9x9CnEqnX+INT1sR28blLn4o0=";
+    #     };
+    #     mcVersion = modpack.manifest.versions.minecraft;
+    #     serverVersion = lib.replaceStrings [ "." ] [ "_" ] "fabric-${mcVersion}";
+    #
+    #     collectFilesAt =
+    #       let
+    #         mapListToAttrs = fn: fv: list:
+    #           lib.listToAttrs (map (x: lib.nameValuePair (fn x) (fv x)) list);
+    #       in
+    #       path: prefix:
+    #         mapListToAttrs (x: builtins.unsafeDiscardStringContext (lib.removePrefix "${path}/" x)) (lib.id) (
+    #           lib.filesystem.listFilesRecursive "${path}/${prefix}"
+    #         );
+    #   in
+    #   {
+    #     enable = true;
+    #     jvmOpts = [ "-Xms2048M" "-Xmx8192M" ];
+    #     package = pkgs.fabricServers.${serverVersion}.override { loaderVersion = "0.18.1"; };
+    #     symlinks = {
+    #       "mods" = "${modpack}/mods";
+    #       "datapacks" = "${modpack}/datapacks";
+    #     };
+    #     files = collectFilesAt modpack "config";
+    #   };
   };
 
   security.sudo.wheelNeedsPassword = false;
@@ -267,12 +252,6 @@
         "docker"
       ];
       shell = pkgs.fish;
-    };
-    guest = {
-      isNormalUser = true;
-      extraGroups = [ ];
-      shell = pkgs.fish;
-      hashedPassword = "$6$ZZYRCjlHr.oK1aV6$.6cekkZayXF19KJzmLFCLWfohNBluYh/R290ySqL1.mYA6UpTkRRPRVL4NppbU6/On.sVcRy3H7DsZ.QeGbH5.";
     };
   };
 
