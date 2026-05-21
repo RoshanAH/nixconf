@@ -2,32 +2,33 @@
   description = "My NixOS configuration";
 
   inputs = {
-    # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    systems.url = "github:nix-systems/default-linux";
+    hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
-        url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland-contrib = {
-        url = "github:hyprwm/contrib";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
 
     nix-index-database = {
-        url = "github:nix-community/nix-index-database";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     stylix.url = "github:danth/stylix";
 
     dash = {
-        url = "github:roshanah/dash";
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:roshanah/dash";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     ninjabrainbot = {
@@ -36,7 +37,7 @@
     };
 
     nixvim = {
-        url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim";
     };
 
     razerdaemon = {
@@ -57,45 +58,44 @@
   outputs = {
     self,
     nixpkgs,
+    home-manager,
+    systems,
     ...
   } @ inputs: let
     inherit (self) outputs;
-    flakeRoot = ./.;
+    lib = nixpkgs.lib // home-manager.lib;
+    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
+    pkgsFor = lib.genAttrs (import systems) (
+      system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+    );
   in {
+    inherit lib;
 
-    packages.x86_64-linux = import ./pkgs { pkgs = nixpkgs.legacyPackages.x86_64-linux; };
+    nixosModules = import ./modules/nixos;
+    homeModules = import ./modules/home-manager;
 
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
+    overlays = import ./overlays {inherit inputs outputs;};
+
+    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    devShells = forEachSystem (pkgs: {default = import ./shell.nix {inherit pkgs;};});
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
+
     nixosConfigurations = {
-      razer = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs flakeRoot;};
-        modules = [
-            ./hosts/razer/configuration.nix
-            inputs.nix-index-database.nixosModules.nix-index
-            inputs.nixvim.nixosModules.nixvim
-            inputs.home-manager.nixosModules.default
-            inputs.stylix.nixosModules.stylix
-            inputs.razerdaemon.nixosModules.default
-        ];
+      razer = lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/razer];
       };
-      juno = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs flakeRoot;};
-        modules = [
-            ./hosts/juno/configuration.nix
-            inputs.nix-index-database.nixosModules.nix-index
-            inputs.nixvim.nixosModules.nixvim
-            inputs.home-manager.nixosModules.default
-            inputs.stylix.nixosModules.stylix
-        ];
+      juno = lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/juno];
       };
-      alienware = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs flakeRoot;};
-        modules = [
-            ./hosts/alienware/configuration.nix
-            inputs.nix-index-database.nixosModules.nix-index
-            inputs.home-manager.nixosModules.default
-        ];
+      alienware = lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/alienware];
       };
     };
   };

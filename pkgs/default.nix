@@ -1,4 +1,5 @@
-{hyprland}: final: prev: {
-  waywall-glfw = final.callPackage ./waywall-glfx.nix {};
-  hyprtoplr = final.callPackage ./hyprtoplr.nix {inherit hyprland;};
+{pkgs ? import <nixpkgs> {}, ...}: {
+  waywall-glfw = pkgs.callPackage ./waywall-glfx.nix {};
+  gpu-select = pkgs.callPackage ./gpu-select {};
+  repo-find = pkgs.callPackage ./repo-find {};
 }

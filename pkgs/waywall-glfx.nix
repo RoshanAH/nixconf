@@ -1,5 +1,4 @@
 {
-
   glfw3,
   fetchpatch,
   ...
@@ -14,5 +13,3 @@ glfw3.overrideAttrs (o: {
       })
     ];
 })
-
-

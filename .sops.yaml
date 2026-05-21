@@ -3,17 +3,43 @@ keys:
     - &roshan 525EB147DC227E358E3762DFE726000EF5F8FDB4
   - &hosts:
     - &juno age14n8nkhshqrumed9zgar50um6smjhu3eglnep9cktdy3pn59uev8qzgvapq
+    # Populate the two keys below by running on each host:
+    #   ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub
+    - &razer age1placeholder_razer_replace_after_running_ssh_to_age_on_host_xxxxxxxxxxxx
+    - &alienware age1placeholder_alienware_replace_after_running_ssh_to_age_on_host_xxxxxxx
 
 creation_rules:
-  - path_regex: hosts/juno/secrets.ya?ml$
+  - path_regex: hosts/razer/secrets\.ya?ml$
+    key_groups:
+    - age:
+      - *razer
+      pgp:
+      - *roshan
+  - path_regex: hosts/juno/secrets\.ya?ml$
     key_groups:
     - age:
       - *juno
       pgp:
       - *roshan
-  - path_regex: secrets.ya?ml$
+  - path_regex: hosts/alienware/secrets\.ya?ml$
     key_groups:
     - age:
+      - *alienware
+      pgp:
+      - *roshan
+  - path_regex: hosts/common/secrets\.ya?ml$
+    key_groups:
+    - age:
+      - *razer
       - *juno
+      - *alienware
+      pgp:
+      - *roshan
+  - path_regex: secrets\.ya?ml$
+    key_groups:
+    - age:
+      - *razer
+      - *juno
+      - *alienware
       pgp:
       - *roshan
