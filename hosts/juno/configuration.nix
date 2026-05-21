@@ -11,6 +11,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/nixos/yubikey.nix
+    ../../modules/nixos/sops.nix
   ];
 
   nixpkgs = {
@@ -179,6 +180,8 @@
   ];
 
   services.flatpak.enable = true;
+
+  services.openssh.enable = true;
 
   programs.obs-studio = {
     enable = true;

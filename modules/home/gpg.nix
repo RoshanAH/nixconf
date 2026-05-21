@@ -32,11 +32,19 @@ in
         fixGpg = /* bash */ ''
           gpgconf --launch gpg-agent
         '';
+        fixYubikey = ''
+          gpg-connect-agent 'scd serialno' 'learn --force' /bye
+        '';
       in
       {
         bash.profileExtra = fixGpg;
         fish.loginShellInit = fixGpg;
         zsh.loginExtra = fixGpg;
+
+        fish.shellAbbrs.yk = fixYubikey;
+        bash.shellAliases.yk = fixYubikey;
+        zsh.shellAliases.yk = fixYubikey;
+
         gpg = {
           enable = true;
           settings = {

@@ -47,6 +47,11 @@
     riscv-toolchain.url = "github:RoshanAH/riscv-qemu-toolchain";
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

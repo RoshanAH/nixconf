@@ -1,0 +1,19 @@
+keys:
+  - &users:
+    - &roshan 525EB147DC227E358E3762DFE726000EF5F8FDB4
+  - &hosts:
+    - &juno age14n8nkhshqrumed9zgar50um6smjhu3eglnep9cktdy3pn59uev8qzgvapq
+
+creation_rules:
+  - path_regex: hosts/juno/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *juno
+      pgp:
+      - *roshan
+  - path_regex: secrets.ya?ml$
+    key_groups:
+    - age:
+      - *juno
+      pgp:
+      - *roshan
