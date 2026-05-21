@@ -47,6 +47,11 @@
     riscv-toolchain.url = "github:RoshanAH/riscv-qemu-toolchain";
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -72,6 +77,16 @@
             inputs.home-manager.nixosModules.default
             inputs.stylix.nixosModules.stylix
             inputs.razerdaemon.nixosModules.default
+        ];
+      };
+      juno = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs flakeRoot;};
+        modules = [
+            ./hosts/juno/configuration.nix
+            inputs.nix-index-database.nixosModules.nix-index
+            inputs.nixvim.nixosModules.nixvim
+            inputs.home-manager.nixosModules.default
+            inputs.stylix.nixosModules.stylix
         ];
       };
       alienware = nixpkgs.lib.nixosSystem {

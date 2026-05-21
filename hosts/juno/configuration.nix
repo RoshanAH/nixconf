@@ -11,6 +11,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/nixos/yubikey.nix
+    ../../modules/nixos/sops.nix
   ];
 
   nixpkgs = {
@@ -64,7 +65,7 @@
       '';
     };
 
-  networking.hostName = "razer";
+  networking.hostName = "juno";
   networking.networkmanager.enable = true;
 
   boot = {
@@ -73,109 +74,15 @@
         enable = true;
         efiSupport = true;
         device = "nodev";
-        useOSProber = false;
+        useOSProber = true;
         timeoutStyle = "hidden";
-        extraEntries = ''
-          menuentry "Windows" {
-              insmod ntfs
-              set root=(hd0,gpt1)
-              chainloader /EFI/Microsoft/Boot/bootmgfw.efi
-          }
-        '';
-      };
-      systemd-boot = {
-        enable = false;
-        configurationLimit = 10;
       };
       efi.canTouchEfiVariables = true;
-      # timeout = 0;
       efi.efiSysMountPoint = "/boot";
-    };
-    kernelParams = [ "button.lid_init_state=open" ];
-  };
-
-  # hack for when i just want things to be fhs compliant
-  programs.nix-ld = {
-    enable = true;
-    libraries =
-      options.programs.nix-ld.libraries.default
-      ++ (with pkgs; [
-        alsa-lib # electron
-        at-spi2-atk # electron
-        cairo # electron
-        cups # electron
-        dbus # electron
-        expat # electron
-        gdk-pixbuf # electron
-        glib # electron
-        gtk3 # electron
-        gtk4 # electron
-        nss # electron
-        nspr # electron
-        xorg.libX11 # electron
-        xorg.libxcb # electron
-        xorg.libXcomposite # electron
-        xorg.libXdamage # electron
-        xorg.libXext # electron
-        xorg.libXfixes # electron
-        xorg.libXrandr # electron
-        xorg.libxkbfile # electron
-        xorg.libxshmfence # electron
-        pango # electron
-        pciutils # electron
-        stdenv.cc.cc # electron
-        systemd # electron
-        libnotify # electron
-        pipewire # electron
-        libsecret # electron
-        libpulseaudio # electron
-        speechd-minimal # electron
-        libdrm # electron
-        mesa # electron
-        libxkbcommon # electron
-        libGL # electron
-        vulkan-loader # electron
-      ]);
-  };
-
-  services.razer-laptop-control.enable = true;
-  systemd.user.services.razerdaemon.serviceConfig.ExecStartPre = lib.mkForce [
-    "${pkgs.coreutils}/bin/mkdir -p %h/.local/share/razercontrol"
-    "-${pkgs.coreutils}/bin/rm -f /tmp/razercontrol-socket"
-  ];
-
-  # Nvidia stuff
-
-  services.logind.lidSwitchExternalPower = "ignore";
-  services.xserver.videoDrivers = [ "nvidia" ];
-  nixpkgs.config.nvidia.acceptLicense = true;
-  hardware = {
-    graphics.enable = true;
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      powerManagement.finegrained = true;
-      open = true;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
-      prime = {
-        offload = {
-          enable = true;
-          enableOffloadCmd = true;
-        };
-        # sync.enable = true;
-        nvidiaBusId = "PCI:1:0:0";
-        amdgpuBusId = "PCI:4:0:0";
-      };
     };
   };
 
   hardware.keyboard.qmk.enable = true;
-
-  hardware.openrazer = {
-    enable = true;
-    users = [ "roshan" ];
-  };
 
   stylix = {
     enable = true;
@@ -205,22 +112,6 @@
 
     polarity = "dark";
     fonts = rec {
-      # monospace = {
-      #     package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
-      #     name = "JetBrainsMono Nerd Font Mono";
-      # };
-
-      # monospace = {
-      #   package = pkgs.nerdfonts.override {
-      #     fonts = ["JetBrainsMono" "Hack" "FiraCode"];
-      #   };
-      #   name = "Hack Nerd Font Mono";
-      # };
-
-      # serif = monospace;
-      # sansSerif = monospace;
-      # emoji = monospace;
-
       serif = config.stylix.fonts.monospace;
       sansSerif = config.stylix.fonts.monospace;
       emoji = config.stylix.fonts.monospace;
@@ -236,39 +127,12 @@
     pulse.enable = true;
   };
 
-  services.tlp = {
-    enable = true;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 20;
-
-      START_CHARGE_THRESH_BAT0 = 40;
-      STOP_CHARGE_THRESH_BAT0 = 80;
-    };
-  };
-
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
   time.timeZone = "America/Chicago";
 
   programs.zsh.enable = true;
-  programs.fish = {
-    enable = true;
-    vendor = {
-      completions.enable = true;
-      config.enable = true;
-      functions.enable = true;
-    };
-  };
   programs.git.enable = true;
   programs.hyprland = {
     enable = true;
@@ -317,19 +181,16 @@
 
   services.flatpak.enable = true;
 
+  services.openssh.enable = true;
+
   programs.obs-studio = {
     enable = true;
-
-    # optional Nvidia hardware acceleration
-    package = pkgs.obs-studio.override {
-      cudaSupport = true;
-    };
 
     plugins = with pkgs.obs-studio-plugins; [
       wlrobs
       obs-backgroundremoval
       obs-pipewire-audio-capture
-      obs-vaapi # optional AMD hardware acceleration
+      obs-vaapi
       obs-gstreamer
       obs-vkcapture
     ];
@@ -341,25 +202,6 @@
 
   security.sudo.wheelNeedsPassword = false;
 
-  # vm stuff
-
-  # programs.dconf.enable = true;
-  # programs.virt-manager.enable = true;
-  # virtualisation = {
-  #   docker.enable = true;
-  #   libvirtd = {
-  #     enable = true;
-  #     qemu = {
-  #       swtpm.enable = true;
-  #       ovmf.enable = true;
-  #       ovmf.packages = [ pkgs.OVMFFull.fd ];
-  #     };
-  #   };
-  #   # spiceUSBRedirection.enable = true;
-  # };
-  # services.spice-vdagentd.enable = true;
-  # users.groups.libvirtd.members = [ "roshan" ];
-
   users.users = {
     roshan = {
       isNormalUser = true;
@@ -367,10 +209,9 @@
         "wheel"
         "networkmanager"
         "docker"
-        "openrazer"
         "libvirtd"
       ];
-      shell = pkgs.fish;
+      shell = pkgs.zsh;
     };
   };
 

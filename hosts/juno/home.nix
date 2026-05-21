@@ -24,9 +24,7 @@
 
   nixpkgs = {
     overlays = [ ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
@@ -40,21 +38,16 @@
 
   home.file.".ssh/id_yubikey.pub".source = ../../keys/ssh.pub;
 
-
   home.packages = (with pkgs; [
     discord
     fzf
     ripgrep
     fd
-    musescore
     ffmpeg
     python3
     prismlauncher
     btop
   ]);
-  # ]) ++ [
-    # inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
-  # ];
 
   xdg = {
     enable = true;
@@ -124,7 +117,7 @@
       userName = "roshan";
       userEmail = "roshanahegde@gmail.com";
       extraConfig = {
-        credential.helper = "store";
+        credential.helper = "${lib.getExe pkgs.pass-git-helper}";
         init.defaultBranch = "main";
         pull.rebase = false;
       };
