@@ -138,6 +138,10 @@
   };
 
   services.razer-laptop-control.enable = true;
+  systemd.user.services.razerdaemon.serviceConfig.ExecStartPre = lib.mkForce [
+    "${pkgs.coreutils}/bin/mkdir -p %h/.local/share/razercontrol"
+    "-${pkgs.coreutils}/bin/rm -f /tmp/razercontrol-socket"
+  ];
 
   # Nvidia stuff
 
@@ -149,7 +153,7 @@
     nvidia = {
       modesetting.enable = true;
       powerManagement.enable = true;
-      powerManagement.finegrained = false;
+      powerManagement.finegrained = true;
       open = true;
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.beta;
@@ -244,6 +248,9 @@
       CPU_MAX_PERF_ON_AC = 100;
       CPU_MIN_PERF_ON_BAT = 0;
       CPU_MAX_PERF_ON_BAT = 20;
+
+      START_CHARGE_THRESH_BAT0 = 40;
+      STOP_CHARGE_THRESH_BAT0 = 80;
     };
   };
 

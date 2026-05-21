@@ -791,11 +791,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1737756476,
-        "narHash": "sha256-TZ2B2ArD9n8ezJVki285qgZTkDFKdfWhsq8rApqGYrM=",
+        "lastModified": 1774658466,
+        "narHash": "sha256-uj0tQsE2Fz+2CtuNUrzUleBCRx7tYdqOffohYkhbGig=",
         "owner": "roshanah",
         "repo": "ninjabrainbot-flake",
-        "rev": "8efb6934ba6e6367c82df5110bf360e8459f59e1",
+        "rev": "5afac8eb876b4dd9b76007ca8035505874605dba",
         "type": "github"
       },
       "original": {

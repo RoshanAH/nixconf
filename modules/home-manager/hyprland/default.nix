@@ -15,8 +15,23 @@
       hyprpaper
     ])
     ++ [
-      inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
+      inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast
     ];
+
+  services.mako = {
+    enable = true;
+    extraConfig = ''
+[app-name=discord]
+  format=<b>%s</b>
+  group-by=summary
+
+[app-name=discord grouped]
+  format=<b>%s</b> (%g)
+
+[mode=do-not-disturb]
+  invisible=1
+    '';
+  };
 
   services.hyprpaper = {
     enable = true;
@@ -39,6 +54,7 @@
     systemd.enable = false;
     settings =
       let
+        makoctl = "${pkgs.mako}/bin/makoctl";
         terminal = "${pkgs.kitty}/bin/kitty";
         #terminal = "${pkgs.alacritty}/bin/alacritty";
         browser =
@@ -54,20 +70,13 @@
         inactive = "rgba(${config.stylix.base16Scheme.base00}ff)";
       in
       {
-
-        env = [
-          "LIBVA_DRIVER_NAME,nvidia"
-          "GLX_VENDOR_LIBRARY_NAME,nvidia"
-          "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-        ];
-
         exec-once = [
           "hyprpaper"
         ];
-        monitor = [ 
-          "eDP-1,1920x1080@144,0x0,1" 
-          "desc:TTG GM-GFT-27FTQB 0000000000001,2560x1440@144.00Hz,auto,1.33333" 
-          ",preferred,auto,1" 
+        monitor = [
+          "eDP-1,1920x1080@144,0x0,1"
+          "desc:TTG GM-GFT-27FTQB 0000000000001,2560x1440@144.00Hz,auto,1.33333"
+          ",preferred,auto,1"
         ];
         xwayland = {
           force_zero_scaling = true;
@@ -164,6 +173,9 @@
           "ALT,f,exec,${browser}"
           "ALT,d,exec,discord --enable-features=UseOzonePlatform --ozone-platform=wayland"
           "ALT,s,exec,spotify"
+          "ALT,m,exec,${makoctl} mode -t do-not-disturb"
+          "ALT,n,exec,${makoctl} dismiss"
+          "ALTSHIFT,n,exec,${makoctl} invoke && ${makoctl} dismiss"
           "SUPER,s,exec,grimblast --freeze copy area"
           ", F9, pass, ^(com\.obsproject\.Studio)$" # obs replay buffer
         ];

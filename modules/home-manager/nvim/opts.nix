@@ -19,6 +19,8 @@
       undodir = "${config.home.homeDirectory}/.vim/";
       undofile = true;
 
+      viewoptions = "folds,cursor"; # no curdir
+
       hlsearch = false;
       incsearch = true;
 

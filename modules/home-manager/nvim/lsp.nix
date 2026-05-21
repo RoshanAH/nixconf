@@ -25,9 +25,6 @@
           yamlls.enable = true; # YAML
           gopls.enable = true; # Go
           java_language_server.enable = true; # Java
-          # asm_lsp = {
-          #   enable = true; # assembly
-          # };
           hls = {
             # haskell
             enable = true;
@@ -165,7 +162,7 @@
 
       lspkind = {
         enable = true;
-        extraOptions = {
+        settings = {
           maxwidth = 50;
           ellipsis_char = "...";
         };

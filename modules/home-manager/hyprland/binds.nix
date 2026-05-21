@@ -25,7 +25,7 @@
     bind = [
       "ALTSHIFT,c,killactive"
       "ALT,space,fullscreen,"
-      "ALTSHIFT,space,fullscreenstate,-1 2"
+      "ALTSHIFT,space,fullscreenstate,2 2"
       "ALT,u,togglefloating"
       "ALT,p,pin"
       "ALT,tab,layoutmsg,swapsplit"

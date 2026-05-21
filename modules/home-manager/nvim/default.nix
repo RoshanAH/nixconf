@@ -5,7 +5,7 @@
 , ...
 }: {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     ./opts.nix
     ./maps.nix
     ./plugins.nix
@@ -25,6 +25,10 @@
     # extraPackages = with pkgs; [
     #   python3
     # ];
+
+    globals = {
+      netrw_keepdir = 1;
+    };
 
     autoCmd = [
         {

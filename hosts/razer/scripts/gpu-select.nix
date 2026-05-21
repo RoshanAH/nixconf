@@ -78,6 +78,14 @@
     echo "export AQ_DRM_DEVICES=\"$drm_devices\"" > "$CONFIG_FILE"
     echo "export WLR_DRM_DEVICES=\"$drm_devices\"" >> "$CONFIG_FILE"
 
+    if [[ "$gpu_choice" == "nvidia" ]]; then
+      {
+        echo "export LIBVA_DRIVER_NAME=nvidia"
+        echo "export GLX_VENDOR_LIBRARY_NAME=nvidia"
+        echo "export __GLX_VENDOR_LIBRARY_NAME=nvidia"
+      } >> "$CONFIG_FILE"
+    fi
+
     echo "Configuration written to: $CONFIG_FILE"
     echo "AQ_DRM_DEVICES=$drm_devices"
   '';
