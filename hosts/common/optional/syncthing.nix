@@ -45,6 +45,14 @@
             "juno"
           ];
         };
+        "nixconf" = {
+          path = "/home/roshan/nixconf";
+          devices = [
+            "razer"
+            "alienware"
+            "juno"
+          ];
+        };
       };
     };
   };
