@@ -5,7 +5,8 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   home = {
     username = "roshan";
     homeDirectory = "/home/roshan";
@@ -14,15 +15,13 @@
 
   home.file.".ssh/id_yubikey.pub".source = ../ssh.pub;
 
-  programs.command-not-found.enable = false;
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-  programs.nix-index.enableFishIntegration = true;
-  programs.zsh = {
-    enable = true;
-    dotDir = config.home.homeDirectory;
+  programs = {
+    command-not-found.enable = false;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+    nix-index.enableFishIntegration = true;
   };
 
   programs.git = {
@@ -30,7 +29,7 @@
     settings = {
       user.name = "roshan";
       user.email = "roshanahegde@gmail.com";
-      credential.helper = "${lib.getExe pkgs.pass-git-helper}";
+      credential.helper = "${lib.getExe pkgs.pass-git-helper}"; # TODO this is broken
       init.defaultBranch = "main";
       pull.rebase = false;
     };

@@ -16,13 +16,11 @@
     ../common/optional/networkmanager.nix
     ../common/optional/grub.nix
     ../common/optional/nix-minecraft.nix
+
+    ../common/optional/syncthing.nix
   ];
 
   networking.hostName = "alienware";
-
-  environment.systemPackages = [
-    inputs.dash.packages.${pkgs.stdenv.hostPlatform.system}.default
-  ];
 
   system.stateVersion = "23.11";
 }

@@ -1,6 +1,7 @@
 {
   inputs,
   outputs,
+  config,
   ...
 }: {
   imports = [
@@ -23,7 +24,7 @@
   home-manager = {
     useGlobalPkgs = true;
     backupFileExtension = "backup";
-    extraSpecialArgs = {inherit inputs outputs;};
+    extraSpecialArgs = {inherit inputs outputs; hostName = config.networking.hostName;};
   };
 
   nixpkgs = {
