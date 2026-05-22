@@ -60,7 +60,7 @@
       ];
       monitor = [
         "eDP-1,1920x1080@144,0x0,1"
-        "desc:TTG GM-GFT-27FTQB 0000000000001,2560x1440@144.00Hz,auto,1.33333"
+        "desc:TTG GM-GFT-27FTQB 0000000000001,2560x1440@165.00Hz,auto,1.33333"
         ",preferred,auto,1"
       ];
       xwayland = {
