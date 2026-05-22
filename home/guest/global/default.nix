@@ -3,8 +3,6 @@
   pkgs,
   ...
 }: {
-  imports = builtins.attrValues outputs.homeModules;
-
   home = {
     username = "guest";
     homeDirectory = "/home/guest";

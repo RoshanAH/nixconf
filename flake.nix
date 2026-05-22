@@ -75,9 +75,6 @@
   in {
     inherit lib;
 
-    nixosModules = import ./modules/nixos;
-    homeModules = import ./modules/home-manager;
-
     overlays = import ./overlays {inherit inputs outputs;};
 
     packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
