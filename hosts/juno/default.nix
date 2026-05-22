@@ -21,6 +21,7 @@
     ../common/optional/grub.nix
     ../common/optional/nixvim.nix
     ../common/optional/desktop-packages.nix
+    ../common/optional/syncthing.nix
   ];
 
   networking.hostName = "juno";
