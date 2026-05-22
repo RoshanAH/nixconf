@@ -60,6 +60,10 @@
             "alienware"
             "juno"
           ];
+          versioning = {
+            type = "trashcan";
+            params.cleanoutDays = "1";
+          };
         };
       };
     };
