@@ -53,6 +53,14 @@
             "juno"
           ];
         };
+        "mc-instances" = {
+          path = "/home/roshan/.local/share/PrismLauncher/instances";
+          devices = [
+            "razer"
+            "alienware"
+            "juno"
+          ];
+        };
       };
     };
   };
