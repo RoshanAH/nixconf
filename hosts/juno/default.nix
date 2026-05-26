@@ -14,6 +14,7 @@
     ../common/optional/pipewire.nix
     ../common/optional/bluetooth.nix
     ../common/optional/hyprland.nix
+    ../common/optional/jay.nix
     ../common/optional/steam.nix
     ../common/optional/obs.nix
     ../common/optional/flatpak.nix

@@ -15,6 +15,7 @@
     ../common/optional/pipewire.nix
     ../common/optional/bluetooth.nix
     ../common/optional/hyprland.nix
+    ../common/optional/jay.nix
     ../common/optional/nvidia.nix
     ../common/optional/razer-laptop.nix
     ../common/optional/tlp.nix

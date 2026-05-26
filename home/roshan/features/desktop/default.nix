@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./hyprland
+    ./jay
     ./kitty.nix
     ./firefox.nix
     ./zathura.nix

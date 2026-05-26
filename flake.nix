@@ -17,6 +17,11 @@
     };
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+
+    jay = {
+      url = "github:mahkoh/jay";
+    };
+
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
 
     nix-index-database = {

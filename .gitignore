@@ -1,1 +1,4 @@
 .stfolder
+.stignore
+.direnv
+.envrc
