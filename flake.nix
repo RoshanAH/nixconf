@@ -58,6 +58,9 @@
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    tinker.url = "git+file:/home/roshan/sync/repos/tinker";
+
   };
 
   outputs = {

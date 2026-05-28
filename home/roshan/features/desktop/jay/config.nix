@@ -3,15 +3,18 @@
   config,
   pkgs,
   inputs,
-}: let
+}:
+let
   scheme = config.stylix.base16Scheme;
   color = name: "#${scheme.${name}}";
   wallpaper = builtins.toString config.stylix.image;
 
   terminal = "${pkgs.kitty}/bin/kitty";
-  browser = let
-    pkg = config.programs.firefox.package;
-  in "${pkg}/bin/firefox";
+  browser =
+    let
+      pkg = config.programs.firefox.package;
+    in
+    "${pkg}/bin/firefox";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   pamixer = "${pkgs.pamixer}/bin/pamixer";
 
@@ -21,28 +24,36 @@
     ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy
   '';
 
-  # Hyprland's `dpms toggle` analog. Jay has no stateful toggle verb, so flip a
-  # flag file and enable/disable the connectors. Verify names with `jay randr`.
   displayToggle = pkgs.writeShellScript "jay-display-toggle" ''
-    connectors="eDP-1"
-    flag="$XDG_RUNTIME_DIR/jay-display-toggle"
-    if [ -f "$flag" ]; then
-      for c in $connectors; do ${jay}/bin/jay randr output "$c" enable; done
-      rm -f "$flag"
-    else
-      for c in $connectors; do ${jay}/bin/jay randr output "$c" disable; done
-      touch "$flag"
-    fi
+    json=$(${jay}/bin/jay --json randr show)
+    connectors=$(echo "$json" | ${pkgs.jq}/bin/jq -r '.drm_devices[].connectors[] | select(.output) | .name')
+    for c in $connectors; do
+      enabled=$(echo "$json" | ${pkgs.jq}/bin/jq -r --arg c "$c" '.drm_devices[].connectors[] | select(.name == $c) | .enabled')
+      if [ "$enabled" = "true" ]; then
+        ${jay}/bin/jay randr output "$c" disable
+      else
+        ${jay}/bin/jay randr output "$c" enable
+      fi
+    done
   '';
 
-  # exec helper: pass a string (bare program) or list (program + args)
   execAction = cmd: {
     type = "exec";
     exec = cmd;
   };
 
-  workspaces = ["1" "2" "3" "4" "5" "q" "w" "e" "r" "t"];
-  # arrow/hjkl key -> jay direction word
+  workspaces = [
+    "1"
+    "2"
+    "3"
+    "4"
+    "5"
+    "q"
+    "w"
+    "e"
+    "r"
+    "t"
+  ];
   directions = {
     h = "left";
     j = "down";
@@ -50,13 +61,26 @@
     l = "right";
   };
   resizeDelta = {
-    left = {dx2 = -15;};
-    right = {dx2 = 15;};
-    up = {dy2 = -15;};
-    down = {dy2 = 15;};
+    left = {
+      dx1 = -15;
+      dx2 = -15;
+    };
+    right = {
+      dx1 = 15;
+      dx2 = 15;
+    };
+    up = {
+      dy1 = -15;
+      dy2 = -15;
+    };
+    down = {
+      dy1 = 15;
+      dy2 = 15;
+    };
   };
 
-  workspaceShortcuts = lib.listToAttrs (lib.concatMap (n: [
+  workspaceShortcuts = lib.listToAttrs (
+    lib.concatMap (n: [
       {
         name = "alt-${n}";
         value = {
@@ -71,22 +95,25 @@
           name = n;
         };
       }
-    ])
-    workspaces);
+    ]) workspaces
+  );
 
-  focusShortcuts =
-    lib.mapAttrs' (key: dir: lib.nameValuePair "alt-${key}" "focus-${dir}") directions;
-  moveShortcuts =
-    lib.mapAttrs' (key: dir: lib.nameValuePair "alt-ctrl-${key}" "move-${dir}") directions;
-  resizeShortcuts =
-    lib.mapAttrs' (key: dir:
-      lib.nameValuePair "alt-shift-${key}" ({type = "resize";} // resizeDelta.${dir}))
-    directions;
+  focusShortcuts = lib.mapAttrs' (key: dir: lib.nameValuePair "alt-${key}" "focus-${dir}") directions;
+  moveShortcuts = lib.mapAttrs' (
+    key: dir: lib.nameValuePair "alt-ctrl-${key}" "move-${dir}"
+  ) directions;
+  resizeShortcuts = lib.mapAttrs' (
+    key: dir: lib.nameValuePair "alt-shift-${key}" ({ type = "resize"; } // resizeDelta.${dir})
+  ) directions;
 
   baseShortcuts = {
     "alt-Return" = execAction terminal;
     "alt-f" = execAction browser;
-    "alt-d" = execAction ["discord" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"];
+    "alt-d" = execAction [
+      "discord"
+      "--enable-features=UseOzonePlatform"
+      "--ozone-platform=wayland"
+    ];
     "alt-s" = execAction "${displayToggle}";
     "logo-s" = execAction "${screenshot}";
     "alt-shift-c" = "close";
@@ -94,16 +121,17 @@
     "alt-u" = "toggle-floating";
     "alt-p" = "toggle-float-pinned";
     "alt-shift-Tab" = "toggle-split";
-    "alt-Tab" = "focus-prev"; # no swap-children equivalent; closest analog
   };
-in {
+in
+{
   repeat-rate = {
     rate = 50;
     delay = 200;
   };
 
   show-bar = false;
-  window-management-key = "Alt_L"; # ALT + left/right mouse to move/resize
+  show-titles = false;
+  window-management-key = "Alt_L";
   focus-follows-mouse = true;
 
   env = {
@@ -114,7 +142,13 @@ in {
     XCURSOR_SIZE = builtins.toString config.stylix.cursor.size;
   };
 
-  on-graphics-initialized = execAction ["${pkgs.swaybg}/bin/swaybg" "-i" wallpaper "-m" "fill"];
+  on-graphics-initialized = execAction [
+    "${pkgs.swaybg}/bin/swaybg"
+    "-i"
+    wallpaper
+    "-m"
+    "fill"
+  ];
 
   theme = {
     border-width = 2;
@@ -122,7 +156,17 @@ in {
     bg-color = color "base00";
   };
 
-  # Monitors. Match values (model/connector) should be confirmed with `jay randr`.
+  clients = [
+    {
+      match.comm-regex = "wl-(copy|paste)";
+      capabilities = "data-control";
+    }
+    {
+      match.comm = "grim";
+      capabilities = "screencopy";
+    }
+  ];
+
   outputs = [
     {
       name = "internal";
@@ -138,34 +182,30 @@ in {
     }
     {
       name = "external";
-      match.model = "GM-GFT-27FTQB"; # verify via `jay randr`
+      match.serial-number = "0000000000001";
       mode = {
         width = 2560;
         height = 1440;
-        refresh-rate = 165.0;
+        refresh-rate = 164.999;
       };
       scale = 1.33333;
     }
   ];
 
   inputs = [
-    # Global pointer acceleration (Hyprland: accel_profile = adaptive)
     {
       match.is-pointer = true;
       accel-profile = "adaptive";
     }
-    # Touchpad natural scrolling (match by name; confirm with `jay input`)
     {
       match.name = "<touchpad name from jay input>";
       natural-scrolling = true;
     }
-    # Razer Viper V2 Pro: flat accel, slowed sensitivity (Hyprland sense -0.4)
     {
       match.name = "Razer Razer Viper V2 Pro"; # verify with `jay input`
       accel-profile = "flat";
       accel-speed = -0.4;
     }
-    # Laptop lid switch (unconditional unlike the old monitor-aware Hyprland bind)
     {
       match.is-switch = true;
       on-lid-closed = {
@@ -188,30 +228,45 @@ in {
   complex-shortcuts = {
     XF86MonBrightnessUp = {
       mod-mask = "";
-      action = execAction [brightnessctl "s" "5%+"];
+      action = execAction [
+        brightnessctl
+        "s"
+        "5%+"
+      ];
     };
     XF86MonBrightnessDown = {
       mod-mask = "";
-      action = execAction [brightnessctl "s" "5%-"];
+      action = execAction [
+        brightnessctl
+        "s"
+        "5%-"
+      ];
     };
     XF86AudioRaiseVolume = {
       mod-mask = "";
-      action = execAction [pamixer "-i" "5"];
+      action = execAction [
+        pamixer
+        "-i"
+        "5"
+      ];
     };
     XF86AudioLowerVolume = {
       mod-mask = "";
-      action = execAction [pamixer "-d" "5"];
+      action = execAction [
+        pamixer
+        "-d"
+        "5"
+      ];
     };
     XF86AudioMute = {
       mod-mask = "";
-      action = execAction [pamixer "-t"];
+      action = execAction [
+        pamixer
+        "-t"
+      ];
     };
   };
 
   shortcuts =
-    baseShortcuts
-    // workspaceShortcuts
-    // focusShortcuts
-    // moveShortcuts
-    // resizeShortcuts;
+    baseShortcuts // workspaceShortcuts // focusShortcuts // moveShortcuts // resizeShortcuts;
 }

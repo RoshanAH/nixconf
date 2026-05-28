@@ -8,7 +8,6 @@
     ./spotify-player.nix
     ./stylix.nix
     ./xdg.nix
-    ./hyprland-autolaunch.nix
   ];
 
   home.packages = with pkgs; [

@@ -2,7 +2,7 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    neofetch
+    fastfetch
     unzip
     sl
     tree

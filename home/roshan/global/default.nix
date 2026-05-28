@@ -11,9 +11,11 @@
     username = "roshan";
     homeDirectory = "/home/roshan";
     stateVersion = "23.11";
+    file.".ssh/id_yubikey.pub".source = ../ssh.pub;
+    packages = [
+      inputs.tinker.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
   };
-
-  home.file.".ssh/id_yubikey.pub".source = ../ssh.pub;
 
   programs = {
     command-not-found.enable = false;

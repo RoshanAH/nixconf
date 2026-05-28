@@ -15,6 +15,7 @@
 
   programs.nixvim = {
     enable = true;
+    nixpkgs.config.allowUnfree = true;
     defaultEditor = true;
     colorschemes.gruvbox.enable = true;
 
