@@ -129,15 +129,18 @@ in
     delay = 200;
   };
 
+  keymap.rmlvo = {
+    model = "evdev";
+    layout = "us";
+  };
+
+  auto-reload = true;
   show-bar = false;
   show-titles = false;
   window-management-key = "Alt_L";
   focus-follows-mouse = true;
 
   env = {
-    LIBVA_DRIVER_NAME = "nvidia";
-    GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     XCURSOR_THEME = config.stylix.cursor.name;
     XCURSOR_SIZE = builtins.toString config.stylix.cursor.size;
   };
