@@ -3,6 +3,7 @@
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-pc-laptop-ssd
+    inputs.razerdaemon.nixosModules.default
 
     ./hardware-configuration.nix
 
@@ -17,7 +18,6 @@
     ../common/optional/hyprland.nix
     ../common/optional/jay.nix
     ../common/optional/nvidia.nix
-    ../common/optional/razer-laptop.nix
     ../common/optional/tlp.nix
     ../common/optional/nix-ld-electron.nix
     ../common/optional/steam.nix
@@ -29,6 +29,8 @@
     ../common/optional/desktop-packages.nix
     ../common/optional/syncthing.nix
   ];
+
+  services.razer-laptop-control.enable = true;
 
   networking.hostName = "razer";
 
