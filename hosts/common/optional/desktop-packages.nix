@@ -3,7 +3,6 @@
     pamixer
     brightnessctl
     devenv
-    waywall
     sbctl
   ];
 }

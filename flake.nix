@@ -48,11 +48,17 @@
     razerdaemon = {
       url = "github:encomjp/razer-control-revived";
       inputs.nixpkgs.follows = "nixpkgs";
+
     };
 
     riscv-toolchain.url = "github:RoshanAH/riscv-qemu-toolchain";
 
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    
+    mcsr-nixos = {
+      url = "git+file:/home/roshan/sync/repos/mcsr-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     sops-nix = {
       url = "github:mic92/sops-nix";

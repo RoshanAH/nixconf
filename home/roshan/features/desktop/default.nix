@@ -14,7 +14,6 @@
     discord
     ffmpeg
     python3
-    prismlauncher
     musescore
   ];
 }
